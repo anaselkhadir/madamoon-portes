@@ -29,8 +29,11 @@ const sans = Quattrocento_Sans({
   display: "swap",
 });
 
+/* Le nom d'onglet demandé par la cliente, et l'icône du site officiel :
+ * « app/icon.png » et « app/apple-icon.png » sont les fichiers de la
+ * phase 1, recopiés tels quels — une porte porte la même marque. */
 export const metadata: Metadata = {
-  title: { default: "MADAMOON", template: "%s — MADAMOON" },
+  title: { default: "MADAMOON \\ robe de mariée à Paris", template: "%s — MADAMOON" },
   description: "Boutique de robes de mariée à Paris 10e, sur rendez-vous.",
 };
 
