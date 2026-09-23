@@ -29,11 +29,20 @@ const sans = Quattrocento_Sans({
   display: "swap",
 });
 
-/* Le nom d'onglet demandé par la cliente, et l'icône du site officiel :
- * « app/icon.png » et « app/apple-icon.png » sont les fichiers de la
- * phase 1, recopiés tels quels — une porte porte la même marque. */
+/*
+ * Le nom de la maison, sur toutes les pages.
+ *
+ * Un seul intitulé — « Madamoon | Robes de mariée à Paris » — pour le
+ * site entier : pas de gabarit qui le décline page par page, c'est le
+ * nom demandé, et il se lit tel quel dans l'onglet comme dans les
+ * résultats de recherche.
+ *
+ * L'icône est celle du site officiel : « app/icon.png » et
+ * « app/apple-icon.png » y sont recopiés à l'identique — une porte
+ * porte la même marque.
+ */
 export const metadata: Metadata = {
-  title: { default: "MADAMOON \\ robe de mariée à Paris", template: "%s — MADAMOON" },
+  title: "Madamoon | Robes de mariée à Paris",
   description: "Boutique de robes de mariée à Paris 10e, sur rendez-vous.",
 };
 
