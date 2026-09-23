@@ -72,12 +72,6 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-/* Le bandeau de l'en-tête occupe une vraie place : le contenu commence
- * dessous, exactement comme sur la référence. */
-main {
-  padding-top: var(--barre);
-}
-
 body {
   background: var(--color-blanc);
   color: var(--color-plume);

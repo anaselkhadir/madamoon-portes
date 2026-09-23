@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 
 const CLE = "madamoon.theme";
 
-export default function Theme({ classe = "" }: { classe?: string }) {
+export default function Theme({ classe = "", cercle = false }: { classe?: string; cercle?: boolean }) {
   const [sombre, setSombre] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -46,13 +46,17 @@ export default function Theme({ classe = "" }: { classe?: string }) {
       aria-pressed={sombre ?? false}
       aria-label={intitule}
       title={intitule}
-      className={`lien-nav flex shrink-0 items-center py-3 transition-colors duration-500 hover:text-action ${classe}`}
+      className={
+        cercle
+          ? `flex h-[2.125rem] w-[2.125rem] shrink-0 items-center justify-center rounded-full bg-encre text-blanc transition-colors duration-500 hover:bg-action hover:text-sur-image ${classe}`
+          : `lien-nav flex shrink-0 items-center py-3 transition-colors duration-500 hover:text-action ${classe}`
+      }
     >
       {vaVersSombre ? (
         <svg
           viewBox="0 0 24 24"
           aria-hidden="true"
-          className="h-[0.95rem] w-[0.95rem]"
+          className={cercle ? "h-[0.85rem] w-[0.85rem]" : "h-[0.95rem] w-[0.95rem]"}
           fill="none"
           stroke="currentColor"
           strokeWidth="1.3"
@@ -65,7 +69,7 @@ export default function Theme({ classe = "" }: { classe?: string }) {
         <svg
           viewBox="0 0 24 24"
           aria-hidden="true"
-          className="h-[0.95rem] w-[0.95rem]"
+          className={cercle ? "h-[0.85rem] w-[0.85rem]" : "h-[0.95rem] w-[0.95rem]"}
           fill="none"
           stroke="currentColor"
           strokeWidth="1.3"

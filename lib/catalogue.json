@@ -1,0 +1,449 @@
+{
+ "createurs": [
+  {
+   "nom": "Watters Designs",
+   "slug": "watters-designs",
+   "origine": "Dallas",
+   "note": "Dentelles travaillées, dos illusion, tombés légers. La maison d'Uma et de Pendant."
+  },
+  {
+   "nom": "Casablanca Bridal",
+   "slug": "casablanca-bridal",
+   "origine": "Newport Beach",
+   "note": "Satin de soie, dentelle française… des robes faites pour la lumière."
+  },
+  {
+   "nom": "Olya Mak",
+   "slug": "olya-mak",
+   "origine": "Lviv",
+   "note": "Le drapé, la transparence, la sensualité retenue. Des robes qui bougent avec celle qui les porte."
+  },
+  {
+   "nom": "Monica Loretti",
+   "slug": "monica-loretti",
+   "origine": "Rome",
+   "note": "L'école italienne : proportions justes, broderies denses, matières nobles."
+  },
+  {
+   "nom": "Autres créateurs",
+   "slug": "autres-createurs",
+   "origine": "Petits ateliers indépendants",
+   "note": "Des ateliers européens indépendants, avec des modèles exclusifs."
+  }
+ ],
+ "coupes": [
+  {
+   "nom": "Sirène",
+   "ancre": "sirene",
+   "note": "Féminine et sensuelle",
+   "famille": "Ajustée jusqu'aux cuisses, puis évasée. Elle dessine la taille et les hanches."
+  },
+  {
+   "nom": "Princesse",
+   "ancre": "princesse",
+   "note": "Raffinée et solennelle",
+   "famille": "Un corset travaillé et un volume de jupe assumé."
+  },
+  {
+   "nom": "Fluide",
+   "ancre": "fluide",
+   "note": "Souple et légère",
+   "famille": "Un tombé souple qui suit naturellement le mouvement."
+  },
+  {
+   "nom": "Trapèze",
+   "ancre": "trapeze",
+   "note": "Juste et intemporelle",
+   "famille": "Un buste ajusté, une jupe qui s'ouvre en A. La coupe la plus universelle."
+  },
+  {
+   "nom": "Deux en un",
+   "ancre": "deux-en-un",
+   "note": "Deux allures, une robe",
+   "famille": "Une robe, deux allures : une surjupe ou une traîne qui se détache."
+  }
+ ],
+ "robes": [
+  {
+   "slug": "uma",
+   "nom": "Uma",
+   "coupe": "Sirène",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "pendant",
+   "nom": "Pendant",
+   "coupe": "Trapèze",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "adularia",
+   "nom": "Adularia",
+   "coupe": "Fluide",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "trinity",
+   "nom": "Trinity",
+   "coupe": "Princesse",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "amaryllis",
+   "nom": "Amaryllis",
+   "coupe": "Sirène",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "aster",
+   "nom": "Aster",
+   "coupe": "Trapèze",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "fern",
+   "nom": "Fern",
+   "coupe": "Princesse",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "charlize",
+   "nom": "Charlize",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "tessa",
+   "nom": "Tessa",
+   "coupe": "Deux en un",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "meredith",
+   "nom": "Meredith",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "clover",
+   "nom": "Clover",
+   "coupe": "Deux en un",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "solana",
+   "nom": "Solana",
+   "coupe": "Trapèze",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "venus",
+   "nom": "Venus",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "ariel",
+   "nom": "Ariel",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "addison",
+   "nom": "Addison",
+   "coupe": "Princesse",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "montana",
+   "nom": "Montana",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "zina",
+   "nom": "Zina",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "sienna",
+   "nom": "Sienna",
+   "coupe": "Trapèze",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "amandine",
+   "nom": "Amandine",
+   "coupe": "Princesse",
+   "createur": null
+  },
+  {
+   "slug": "charlotte",
+   "nom": "Charlotte",
+   "coupe": "Trapèze",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "dove",
+   "nom": "Dove",
+   "coupe": "Fluide",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "finell",
+   "nom": "Finell",
+   "coupe": "Trapèze",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "ryle",
+   "nom": "Ryle",
+   "coupe": "Fluide",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "shiloh",
+   "nom": "Shiloh",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "carrie",
+   "nom": "Carrie",
+   "coupe": "Trapèze",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "maribel",
+   "nom": "Maribel",
+   "coupe": "Fluide",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "summer",
+   "nom": "Summer",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "gabriel",
+   "nom": "Gabriel",
+   "coupe": "Deux en un",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "emerald",
+   "nom": "Emerald",
+   "coupe": "Trapèze",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "alicia",
+   "nom": "Alicia",
+   "coupe": "Trapèze",
+   "createur": null
+  },
+  {
+   "slug": "lovia",
+   "nom": "Lovia",
+   "coupe": "Trapèze",
+   "createur": null
+  },
+  {
+   "slug": "angel",
+   "nom": "Angel",
+   "coupe": "Trapèze",
+   "createur": null
+  },
+  {
+   "slug": "dolores",
+   "nom": "Dolores",
+   "coupe": "Trapèze",
+   "createur": null
+  },
+  {
+   "slug": "livia",
+   "nom": "Livia",
+   "coupe": "Princesse",
+   "createur": null
+  },
+  {
+   "slug": "riviera",
+   "nom": "Riviera",
+   "coupe": "Sirène",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "kensington",
+   "nom": "Kensington",
+   "coupe": "Princesse",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "nirali",
+   "nom": "Nirali",
+   "coupe": "Trapèze",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "calla",
+   "nom": "Calla",
+   "coupe": "Trapèze",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "fortune",
+   "nom": "Fortune",
+   "coupe": "Trapèze",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "siddalee",
+   "nom": "Siddalee",
+   "coupe": "Sirène",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "mitra",
+   "nom": "Mitra",
+   "coupe": "Princesse",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "ember",
+   "nom": "Ember",
+   "coupe": "Princesse",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "rowan",
+   "nom": "Rowan",
+   "coupe": "Sirène",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "clover-perles",
+   "nom": "Clover avec ou sans perles",
+   "coupe": "Princesse",
+   "createur": "Watters Designs"
+  },
+  {
+   "slug": "marie",
+   "nom": "Marie",
+   "coupe": "Fluide",
+   "createur": "Monica Loretti"
+  },
+  {
+   "slug": "mathilda",
+   "nom": "Mathilda",
+   "coupe": "Fluide",
+   "createur": "Monica Loretti"
+  },
+  {
+   "slug": "murielle",
+   "nom": "Murielle",
+   "coupe": "Fluide",
+   "createur": "Monica Loretti"
+  },
+  {
+   "slug": "agnessa",
+   "nom": "Agnessa",
+   "coupe": "Fluide",
+   "createur": null
+  },
+  {
+   "slug": "mira",
+   "nom": "Mira",
+   "coupe": "Sirène",
+   "createur": "Monica Loretti"
+  },
+  {
+   "slug": "monica",
+   "nom": "Monica",
+   "coupe": "Trapèze",
+   "createur": "Monica Loretti"
+  },
+  {
+   "slug": "milan",
+   "nom": "Milan",
+   "coupe": "Fluide",
+   "createur": "Monica Loretti"
+  },
+  {
+   "slug": "chastity",
+   "nom": "Chastity",
+   "coupe": "Deux en un",
+   "createur": "Olya Mak"
+  },
+  {
+   "slug": "river",
+   "nom": "River",
+   "coupe": "Trapèze",
+   "createur": "Olya Mak"
+  },
+  {
+   "slug": "seraphina",
+   "nom": "Seraphina",
+   "coupe": "Princesse",
+   "createur": "Olya Mak"
+  },
+  {
+   "slug": "elin",
+   "nom": "Elin",
+   "coupe": "Sirène",
+   "createur": "Olya Mak"
+  },
+  {
+   "slug": "hera",
+   "nom": "Héra",
+   "coupe": "Trapèze",
+   "createur": null
+  },
+  {
+   "slug": "helene",
+   "nom": "Hélène",
+   "coupe": "Fluide",
+   "createur": null
+  }
+ ],
+ "morphologies": [
+  {
+   "lettre": "O",
+   "nom": "Morphologie en O",
+   "objectif": "Allonger la ligne et mettre la poitrine en valeur."
+  },
+  {
+   "lettre": "A",
+   "nom": "Morphologie en A",
+   "objectif": "Ramener le regard vers le haut du corps."
+  },
+  {
+   "lettre": "V",
+   "nom": "Morphologie en V",
+   "objectif": "Adoucir le haut et donner du volume au bas."
+  },
+  {
+   "lettre": "H",
+   "nom": "Morphologie en H",
+   "objectif": "Créer de la courbe, sans la forcer."
+  },
+  {
+   "lettre": "8",
+   "nom": "Morphologie en 8",
+   "objectif": "Sublimer une harmonie qui existe déjà."
+  },
+  {
+   "lettre": "X",
+   "nom": "Morphologie en X",
+   "objectif": "Valoriser sans en faire trop."
+  }
+ ],
+ "categories": [
+  "Sirène",
+  "Fluide",
+  "Trapèze",
+  "Princesse",
+  "Deux en un"
+ ]
+}
