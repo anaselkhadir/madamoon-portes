@@ -36,10 +36,20 @@ export const metadata: Metadata = {
 
 export default function Gabarit({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${serif.variable} ${sans.variable}`}>
+    <html lang="fr" suppressHydrationWarning className={`${serif.variable} ${sans.variable}`}>
       <head>
         <link rel="preconnect" href={SITE} />
         <link rel="dns-prefetch" href={SITE} />
+        {/* Le thème, reposé avant la première peinture — et sous la même
+          * clé que le site : une visiteuse qui a choisi le sombre
+          * là-bas le retrouve ici, sans éclair blanc au chargement. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              `try{if(localStorage.getItem("madamoon.theme")==="sombre")` +
+              `document.documentElement.setAttribute("data-theme","sombre")}catch(e){}`,
+          }}
+        />
       </head>
       <body>{children}</body>
     </html>

@@ -1,4 +1,7 @@
 import Logo from "@/components/Logo";
+import Menu from "@/components/Menu";
+import Theme from "@/components/Theme";
+import Langue from "@/components/Langue";
 import { MAISON, NAVIGATION, vers } from "@/lib/site";
 
 /*
@@ -54,27 +57,18 @@ export default function Entete({ surImage = false }: { surImage?: boolean }) {
           aria-label="Navigation"
           className="gouttiere relative flex h-[var(--entete)] items-center justify-between gap-6"
         >
-          <ul className="hidden items-center gap-8 lg:flex">
-            {NAVIGATION.gauche.map(([href, nom]) => (
-              <li key={href}>
-                <a href={vers(href)} className="lien-nav souligne">
-                  {nom}
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          {/* Sous mille vingt-quatre pixels, la barre se réduit au
-            * strict : les robes, le sigle et le rendez-vous.
-            *
-            * C'est l'enveloppe que l'on masque, pas le lien : « .lien-nav »
-            * pose son « display » hors calque et l'emporterait sur
-            * l'utilitaire. */}
-          <span className="lg:hidden">
-            <a href={vers("/robes/")} className="lien-nav souligne">
-              Les robes
-            </a>
-          </span>
+          <div className="flex min-w-0 items-center gap-6">
+            <Menu />
+            <ul className="hidden items-center gap-8 lg:flex">
+              {NAVIGATION.gauche.map(([href, nom]) => (
+                <li key={href}>
+                  <a href={vers(href)} className="lien-nav souligne">
+                    {nom}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <a
             href={vers("/")}
@@ -94,9 +88,17 @@ export default function Entete({ surImage = false }: { surImage?: boolean }) {
                 </li>
               ))}
             </ul>
-            <a href={vers("/rendez-vous/")} className="bouton bouton-barre shrink-0">
-              Rendez-vous
-            </a>
+            {/* La langue, puis l'apparence : deux réglages de la
+              * visiteuse, rangés ensemble, comme sur le site. */}
+            <Langue />
+            <span className="hidden lg:block">
+              <Theme classe="px-1" />
+            </span>
+            <span className="hidden shrink-0 md:block">
+              <a href={vers("/rendez-vous/")} className="bouton bouton-barre">
+                Rendez-vous
+              </a>
+            </span>
           </div>
         </nav>
       </div>
