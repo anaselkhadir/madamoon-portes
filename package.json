@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -p 5800",
     "build": "next build --turbopack",
-    "start": "next start"
+    "start": "next start",
+    "build:pages": "BASE_PATH=/madamoon-portes next build",
+    "build:domaine": "next build"
   },
   "dependencies": {
     "react": "19.1.0",

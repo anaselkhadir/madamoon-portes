@@ -1,26 +1,1351 @@
 @import "tailwindcss";
 
+/* ———————————————————————————————————————————————————————————
+ * MADAMOON — système visuel
+ *
+ * Les valeurs de cette feuille ne sont pas inventées : elles sont
+ * relevées sur la référence, à 1440 px de large, puis transposées en
+ * unités fluides. Gouttière 48, en-tête 38 + 70, titre d'affiche 100/95,
+ * titre de section 32/48, bouton 40 de haut, tuiles au rapport 447/621.
+ *
+ * La base est claire : blanc et ivoire. Le rouge n'occupe jamais une
+ * surface — il agit (#910000) ou il ponctue (#CE0A2C).
+ * ——————————————————————————————————————————————————————————— */
+
+@theme {
+  --color-blanc: #ffffff;
+  --color-ivoire: #fdfbf8;
+  --color-craie: #f6f2ec;
+  --color-sable: #ece5da;
+  --color-fil: #e3dcd1;
+
+  /* Le blanc du texte posé sur une photographie. Il ne bascule jamais :
+   * une image reste une image, et son voile de lecture est calculé pour
+   * du blanc. « blanc » désigne une surface, et une surface s'assombrit ;
+   * les deux rôles portaient le même jeton, et le titre du hero est
+   * devenu noir sur noir au premier essai du mode sombre. */
+  --color-sur-image: #ffffff;
+
+  /* Et l'encre posée sur ce blanc-là. Même raison, en miroir : le fond
+   * d'un bouton clair ne bascule pas, donc son texte non plus. */
+  --color-sous-image: #14100c;
+
+  --color-encre: #14100c;
+  --color-plume: #2f2d2d;
+  --color-plomb: #6b6459;
+  --color-brume: #a8a093;
+
+  --color-action: #910000;
+  --color-accent: #ce0a2c;
+
+  --font-serif: var(--police-serif), "Times New Roman", serif;
+  --font-sans: var(--police-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-doux: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-rideau: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 48 px à 1440. La marge du site, partout la même. */
+  --gouttiere: clamp(1.125rem, 3.34vw, 3.5rem);
+  /* 38 px de bandeau, 56 px de barre principale.
+   *
+   * La référence en met 70 ; la cliente les trouve trop hauts. À 56, le
+   * logo de 17 px et la navigation de 12 px gardent une marge franche, et
+   * la barre cesse de peser sur l'image. C'est aussi la hauteur qu'elle
+   * avait déjà sous 900 px : une valeur de moins dans le système. */
+  --barre: 2.375rem;
+  --entete: 3.5rem;
+  --ease-doux: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-rideau: cubic-bezier(0.16, 1, 0.3, 1);
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@media (max-width: 900px) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --barre: 0rem;
+    --entete: 3.5rem;
   }
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Le bandeau de l'en-tête occupe une vraie place : le contenu commence
+ * dessous, exactement comme sur la référence. */
+main {
+  padding-top: var(--barre);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-blanc);
+  color: var(--color-plume);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-sur-image);
+}
+
+:focus-visible {
+  outline: 1.5px solid var(--color-action);
+  outline-offset: 3px;
+}
+
+/* ———————————————————————————————————— typographie ————— */
+
+/* Le titre d'affiche. La référence monte à 100 px ; MADAMOON s'arrête à
+ * 80 px — le mot reste dominant, l'écran respire davantage. */
+.affiche {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 5.6vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: 0.006em;
+  text-transform: uppercase;
+}
+
+/* Le titre de section : sans-serif, capitales, 32 px / 48. */
+.titre-section {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(1.375rem, 2.22vw, 2rem);
+  line-height: 1.5;
+  letter-spacing: 0.019em;
+  text-transform: uppercase;
+  color: var(--color-encre);
+}
+
+/* Le nom posé dans l'image : serif, 48 px, bas de casse. */
+.nom-image {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.875rem, 3.33vw, 3rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+/* Au doigt, une tuile fait 176 pixels de large : à trente, le nom y
+ * tenait la moitié de la hauteur utile et passait avant la robe. Il
+ * descend à vingt-deux, et remonte avec la largeur de l'écran — sur une
+ * tablette, la tuile fait le double et retrouve sa taille de plein
+ * écran. */
+@media (max-width: 767px) {
+  .nom-image {
+    font-size: clamp(1.375rem, 5.6vw, 1.875rem);
+  }
+}
+
+/* La ligne qui suit un nom : sans-serif, 18 px. */
+.note-image {
+  font-family: var(--font-sans);
+  font-size: clamp(0.9375rem, 1.25vw, 1.125rem);
+  line-height: 1.5;
+}
+
+/* L'accroche sous le titre d'affiche : capitales grasses, 18 px. */
+.accroche {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(0.8125rem, 1.25vw, 1.125rem);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Les liens de navigation : 12 px, capitales. */
+.lien-nav {
+  font-size: 0.75rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+/* Les mentions du bandeau : 10 px, capitales, grasses. */
+.mention {
+  font-size: 0.625rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* Un repère de rubrique. */
+.legende {
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-plomb);
+}
+
+/* Une phrase éditoriale, en serif. */
+.phrase {
+  font-family: var(--font-serif);
+  font-size: clamp(1.375rem, 2.6vw, 2.25rem);
+  line-height: 1.25;
+  letter-spacing: 0;
+  color: var(--color-encre);
+}
+
+.texte {
+  font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
+  line-height: 1.7;
+  color: var(--color-plume);
+}
+
+/* ———————————————————————————————————— boutons ————— */
+
+/* 40 px de haut, 24 px de part et d'autre, 12 px de capitales. */
+.bouton,
+.bouton-clair,
+.bouton-trait {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  padding-inline: 1.5rem;
+  /* Quatre pixels : l'angle s'adoucit sans que le bouton devienne une
+   * pastille. Le reste du site est net — tuiles carrées, filets d'un
+   * pixel — et un rayon plus large ferait entrer un autre vocabulaire. */
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color 0.45s var(--ease-doux), color 0.45s var(--ease-doux),
+    border-color 0.45s var(--ease-doux);
+}
+
+/* L'action de la maison. La seule surface rouge du site. */
+.bouton {
+  background: var(--color-action);
+  color: var(--color-sur-image);
+}
+.bouton:hover {
+  background: #760000;
+}
+
+/* Sur une photographie : fond blanc, texte encre.
+ *
+ * Les deux couleurs sont fixes. Un bouton blanc reste blanc en mode
+ * sombre : il se lit sur l'image, pas sur la page, et l'image ne change
+ * pas de thème. Le jeton « blanc » désignait la surface du site, qui
+ * s'assombrit — le bouton était devenu noir. */
+.bouton-clair {
+  background: var(--color-sur-image);
+  color: var(--color-sous-image);
+}
+.bouton-clair:hover {
+  background: var(--color-action);
+  color: var(--color-sur-image);
+}
+
+/*
+ * L'icône seule, dans un cercle — sous le pouce uniquement.
+ *
+ * Sur la fiche d'une robe, trois boutons pleine largeur s'empilaient
+ * les uns sur les autres et recouvraient la photographie. Les deux
+ * actions secondaires — le catalogue, le coup de cœur — se réduisent
+ * donc à leur pictogramme, et l'essayage garde son intitulé.
+ *
+ * Au-delà du point d'arrêt, rien ne change : la place est là, et le mot
+ * vaut mieux qu'un dessin. La classe ne fait donc qu'annuler, en
+ * dessous, ce que « .bouton-clair » a posé.
+ *
+ * L'intitulé est retiré de l'affichage et non masqué à l'œil seul : le
+ * nom accessible vient de « aria-label », que les deux boutons portent
+ * dans les deux formes.
+ */
+@media (max-width: 767px) {
+  .pastille {
+    width: 2.5rem;
+    padding-inline: 0;
+    border-radius: 999px;
+  }
+  .pastille .intitule {
+    display: none;
+  }
+
+  /* Le cœur rempli : la robe est déjà retenue. Le cercle reste blanc —
+   * c'est le tracé qui porte l'état, pas la surface. Au survol, le
+   * cercle devient rouge et le tracé reprend la couleur du bouton,
+   * faute de quoi il disparaîtrait dans le fond. */
+  .pastille[aria-pressed="true"] .trace {
+    color: var(--color-action);
+  }
+  .pastille:hover .trace {
+    color: inherit;
+  }
+}
+
+/*
+ * L'action principale, quand elle partage sa ligne avec des pastilles.
+ *
+ * Sous le pouce, le rang doit tenir sur une seule ligne : deux cercles
+ * de 40 px, deux écarts de 8 px, et le reste pour l'intitulé. On y
+ * gagne la place en resserrant les flancs du bouton, jamais en coupant
+ * le mot — un bouton dont on ne lit pas la fin ne se clique pas.
+ */
+@media (max-width: 767px) {
+  .essentiel {
+    padding-inline: 1rem;
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+}
+
+
+/* Sur une photographie.
+ *
+ * Les styles de titre portent leur propre couleur ; sur une image, il
+ * faut donc la reprendre explicitement — un utilitaire n'y suffirait
+ * pas, ces règles ne sont pas calquées et l'emportent sur lui.
+ *
+ * Il n'en reste qu'une : les règles descendantes et le bouton blanc
+ * servaient à la bande rouge de bas de page, retirée du site. */
+.sur-rouge {
+  color: var(--color-sur-image);
+}
+
+/*
+ * Le bouton de la barre.
+ *
+ * Le bouton courant fait quarante pixels de haut ; dans une barre qui en
+ * fait cinquante-six, il ne laisse que huit pixels d'air au-dessus et
+ * au-dessous et pèse plus que le reste de la navigation. Trente-deux
+ * suffisent : il reste une action franche sans devenir le sujet.
+ *
+ * Les mesures s'écrivent ici et non en utilitaires : « .bouton » pose sa
+ * hauteur et ses marges hors calque, et l'emporterait.
+ */
+.bouton-barre {
+  height: 2rem;
+  padding-inline: 1.125rem;
+  font-size: 0.6875rem;
+}
+@media (max-width: 1023px) {
+  .bouton-barre {
+    padding-inline: 0.875rem;
+  }
+}
+
+/* L'action secondaire, sur fond clair. */
+.bouton-trait {
+  border: 1px solid var(--color-encre);
+  color: var(--color-encre);
+}
+.bouton-trait:hover {
+  background: var(--color-encre);
+  color: var(--color-blanc);
+}
+
+/*
+ * La carte de rendez-vous, au doigt.
+ *
+ * Deux cent soixante-douze pixels sur un écran de trois cent quatre-vingt-
+ * dix, c'était plus des deux tiers de la largeur, posés en permanence sur
+ * les photographies. Elle perd un cinquième en largeur et en hauteur. Le
+ * bouton garde trente-six pixels de haut : en deçà, le pouce le manque.
+ *
+ * Écrit ici et non en utilitaires : « .bouton » et « .mention » ne sont
+ * pas calqués, et l'emporteraient sur eux.
+ */
+@media (max-width: 767px) {
+  .carte-rdv {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: 13.5rem;
+    padding: 0.625rem 0.75rem 0.75rem;
+  }
+  .carte-rdv .mention {
+    margin-bottom: 0.5rem;
+    font-size: 0.5625rem;
+  }
+  .carte-rdv .bouton {
+    height: 2.25rem;
+    padding-inline: 0.75rem;
+    font-size: 0.6875rem;
+  }
+}
+
+/*
+ * « Appeler », dans le bas du menu.
+ *
+ * Le bouton du site, un cran plus petit : il voisine avec des logos de
+ * vingt pixels, et à pleine taille il écrasait la ligne. Écrit ici et
+ * non en utilitaires — « .bouton » n'est pas calqué et l'emporterait.
+ */
+.bouton-compact {
+  height: 2.125rem;
+  padding-inline: 0.875rem;
+  font-size: 0.6875rem;
+}
+
+/* ———————————————————————————————————— le bandeau défilant ————— */
+
+/*
+ * Une bande d'informations qui passe en boucle, au bas du hero.
+ *
+ * Le défilé est une simple translation : la piste contient quatre copies
+ * de la liste et se décale d'un quart de sa largeur. Arrivée au bout, la
+ * copie suivante occupe exactement la place de la première — la boucle
+ * ne se voit pas. Quatre copies plutôt que deux pour qu'un écran très
+ * large ne rattrape jamais la fin de la piste.
+ */
+.bandeau {
+  overflow: hidden;
+}
+
+.bandeau-piste {
+  display: flex;
+  width: max-content;
+  /* 22 s pour un quart de piste, soit une quarantaine de pixels par
+   * seconde : le mouvement se voit sans jamais presser la lecture. */
+  animation: defile 22s linear infinite;
+}
+
+/* Au survol on suspend : le prix doit pouvoir se lire. */
+.bandeau:hover .bandeau-piste {
+  animation-play-state: paused;
+}
+
+@keyframes defile {
+  to {
+    transform: translateX(-25%);
+  }
+}
+
+.bandeau-mention {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gouttiere);
+  padding-inline: calc(var(--gouttiere) / 2);
+  height: 2.75rem;
+  /* Sans fond : la bande est posée à même l'image. L'ombre portée est ce
+   * qui tient la lisibilité quand un plan clair passe dessous. */
+  color: var(--color-sur-image);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+}
+
+/* Le losange de séparation : la seule touche d'accent de la page. */
+.bandeau-mention::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  flex: none;
+  rotate: 45deg;
+  background: var(--color-accent);
+}
+
+/* Le mouvement refusé : la bande s'arrête, rien ne se perd — les mentions
+ * restent lisibles, on peut les faire défiler à la main. */
+@media (prefers-reduced-motion: reduce) {
+  .bandeau {
+    overflow-x: auto;
+  }
+  .bandeau-piste {
+    animation: none;
+  }
+}
+
+/* ———————————————————————————————————— le verre d'Élise ————— */
+
+/*
+ * Le panneau de la conversation, en verre dépoli sombre.
+ *
+ * Il a d'abord été clair — de l'ivoire translucide. La maison le veut
+ * sombre : une conseillère qui parle par-dessus la page doit s'en
+ * détacher, et un panneau clair posé sur des photographies claires
+ * flottait sans jamais se poser.
+ *
+ * Le fond est de l'encre à soixante-huit pour cent, et le filtre
+ * assombrit au lieu d'éclaircir. En dessous de soixante, le film du hero
+ * traverse et le texte se perd sur les plans lumineux ; au-dessus de
+ * quatre-vingts, ce n'est plus du verre mais un volet. La saturation
+ * reste relevée parce que le flou lave les couleurs.
+ *
+ * Le fond opaque n'est pas un repli honteux : là où le navigateur ne sait
+ * pas flouter, du texte clair sur une encre translucide deviendrait
+ * illisible dès qu'une image claire passe dessous.
+ */
+.verre {
+  background: color-mix(in srgb, var(--color-encre) 68%, transparent);
+  -webkit-backdrop-filter: blur(40px) saturate(160%) brightness(62%);
+  backdrop-filter: blur(40px) saturate(160%) brightness(62%);
+  border-color: color-mix(in srgb, var(--color-sur-image) 18%, transparent);
+  /* Le liseré clair en haut : c'est lui qui donne l'épaisseur, comme la
+   * tranche d'une vitre prise dans la lumière. Il s'assourdit avec le
+   * fond — sur du sombre, un liseré à cinquante-cinq pour cent devient
+   * un néon. */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 30px 90px -40px rgba(0, 0, 0, 0.7);
+}
+
+/*
+ * Les couleurs du site s'inversent à l'intérieur.
+ *
+ * Le panneau porte les mêmes classes qu'ailleurs — encre, plomb, brume —
+ * et il faut qu'elles disent l'inverse ici. La règle est descendante à
+ * dessein : n'étant pas calquée, elle l'emporte sur l'utilitaire, et le
+ * composant n'a pas à connaître la couleur de son fond.
+ */
+.verre .text-encre {
+  color: var(--color-ivoire);
+}
+.verre .text-plomb {
+  color: color-mix(in srgb, var(--color-ivoire) 74%, transparent);
+}
+.verre .text-brume {
+  color: color-mix(in srgb, var(--color-ivoire) 54%, transparent);
+}
+.verre input::placeholder {
+  color: color-mix(in srgb, var(--color-ivoire) 46%, transparent);
+}
+/* Le rouge de la maison est trop sombre sur du sombre : il s'éclaircit
+ * pour rester lisible, sans quitter la famille. */
+.verre .text-accent,
+.verre .hover\:text-accent:hover,
+.verre .enabled\:hover\:text-accent:enabled:hover {
+  color: color-mix(in srgb, var(--color-accent) 48%, white);
+}
+
+/* Les séparations internes se font discrètes : sur du verre, un trait
+ * plein découpe le panneau en morceaux. */
+.verre .border-fil {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .verre {
+    background: #131313;
+  }
+}
+
+/* ———————————————————————————————————— le rail des avis ————— */
+
+/*
+ * Les avis passent en boucle, comme le bandeau du hero — même mécanique,
+ * même keyframe. La piste porte quatre copies de la liste et se décale
+ * d'un quart de sa largeur : la copie suivante vient prendre exactement
+ * la place de la première, et la boucle ne se voit pas.
+ *
+ * Quatre-vingts secondes pour un quart de piste, soit une trentaine de
+ * pixels par seconde — deux fois plus lent que le bandeau, parce qu'ici
+ * il y a des phrases à lire et non trois mots à reconnaître.
+ */
+.rail-avis {
+  overflow: hidden;
+}
+
+.rail-avis-piste {
+  display: flex;
+  width: max-content;
+  animation: defile 80s linear infinite;
+}
+
+/* Au survol on suspend : on doit pouvoir finir sa lecture. */
+.rail-avis:hover .rail-avis-piste {
+  animation-play-state: paused;
+}
+
+/* Une colonne d'avis. Le filet à gauche sépare, aucun cadre n'entoure. */
+.avis-colonne {
+  width: 22rem;
+  flex: none;
+  border-left: 1px solid var(--color-fil);
+  padding-inline: clamp(1.25rem, 2vw, 2rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail-avis {
+    overflow-x: auto;
+  }
+  .rail-avis-piste {
+    animation: none;
+  }
+}
+
+/* La légende d'une carte de la roue.
+ *
+ * Deux classes plutôt que des utilitaires : .phrase et .texte portent
+ * leur propre taille, ne sont pas calquées, et l'emportent donc sur
+ * n'importe quel text-[…]. Le nom s'affichait à 36 px au lieu de 15.
+ */
+.nom-carte {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 0.9375rem;
+  line-height: 1.25;
+  color: var(--color-encre);
+}
+
+.ligne-carte {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--color-plomb);
+}
+
+/* ———————————————————————————————————— trames ————— */
+
+.gouttiere {
+  padding-inline: var(--gouttiere);
+}
+
+/* La grille de tuiles : trois colonnes jointives, 1,5 px de jeu. */
+.trame-tuiles {
+  display: grid;
+  gap: 1.5px;
+}
+
+/*
+ * Le dernier rang incomplet se centre.
+ *
+ * Une trame de deux colonnes qui porte un nombre impair de robes laissait
+ * la dernière seule à gauche, et un trou blanc à sa droite — sur chaque
+ * fiche (« dans la famille » en porte trois), sur les pages de coupe où
+ * une maison n'a qu'une robe. On aurait dit une tuile oubliée.
+ *
+ * La trame compte donc en demi-colonnes : chaque tuile en prend deux, et
+ * celles du dernier rang incomplet démarrent une demi-colonne plus loin.
+ * La largeur d'une tuile ne change pas d'un pixel ; seul le rang du bas
+ * se pose au milieu, avec autant de blanc de part et d'autre.
+ *
+ * Écrit ici et non en utilitaires : il faut « :nth-child » et
+ * « :last-child », et la règle doit l'emporter sur « grid-cols-2 ».
+ */
+.trame-tuiles.grid-cols-2 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.trame-tuiles.grid-cols-2 > * {
+  grid-column: span 2;
+}
+.trame-tuiles.grid-cols-2 > :last-child:nth-child(odd) {
+  grid-column: 2 / span 2;
+}
+@media (min-width: 768px) {
+  .trame-tuiles.md\:grid-cols-3 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .trame-tuiles.md\:grid-cols-3 > *,
+  .trame-tuiles.md\:grid-cols-3 > :last-child:nth-child(odd) {
+    grid-column: span 2;
+  }
+  /* Une seule au dernier rang : au milieu. */
+  .trame-tuiles.md\:grid-cols-3 > :last-child:nth-child(3n + 1) {
+    grid-column: 3 / span 2;
+  }
+  /* Deux : la première démarre une demi-colonne plus loin, la seconde suit. */
+  .trame-tuiles.md\:grid-cols-3 > :nth-last-child(2):nth-child(3n + 1) {
+    grid-column: 2 / span 2;
+  }
+}
+
+/*
+ * Le catalogue sur ordinateur : quatre robes par rang au lieu de trois.
+ * Trois tuiles pleine hauteur ne laissaient voir qu'un rang à la fois ;
+ * à quatre, la robe se lit encore et l'on compare d'un regard.
+ *
+ * Même principe en demi-colonnes — huit —, et le dernier rang incomplet
+ * se centre. Chaque règle nomme aussi « md:grid-cols-3 » pour l'emporter
+ * sur celles des trois colonnes.
+ */
+@media (min-width: 1024px) {
+  .trame-tuiles.md\:grid-cols-3.lg\:grid-cols-4 {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .trame-tuiles.md\:grid-cols-3.lg\:grid-cols-4 > :nth-child(n):nth-last-child(n) {
+    grid-column: span 2;
+  }
+  /* Une seule au dernier rang. */
+  .trame-tuiles.md\:grid-cols-3.lg\:grid-cols-4 > :last-child:nth-child(4n + 1) {
+    grid-column: 4 / span 2;
+  }
+  /* Deux. */
+  .trame-tuiles.md\:grid-cols-3.lg\:grid-cols-4 > :nth-last-child(2):nth-child(4n + 1) {
+    grid-column: 3 / span 2;
+  }
+  /* Trois. */
+  .trame-tuiles.md\:grid-cols-3.lg\:grid-cols-4 > :nth-last-child(3):nth-child(4n + 1) {
+    grid-column: 2 / span 2;
+  }
+}
+
+/* Le rapport relevé sur la référence : 447 / 621. */
+.tuile {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 447 / 621;
+}
+
+/* Au doigt, la trame a deux colonnes et la gouttière ne bouge pas : une
+ * tuile ne peut s'agrandir qu'en hauteur. Elle y gagne un septième, ce
+ * qui suffit à voir la robe plutôt qu'à la deviner. */
+@media (max-width: 767px) {
+  .tuile {
+    aspect-ratio: 447 / 720;
+  }
+}
+
+.tuile img,
+.tuile video {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 1.4s var(--ease-doux);
+}
+
+.tuile:hover img,
+.tuile:hover video {
+  transform: scale(1.035);
+}
+
+/* Le texte posé dans l'image : centré en hauteur, 24 px depuis la gauche. */
+/*
+ * Le texte se pose en bas, pas au milieu.
+ *
+ * Au centre, il traversait exactement ce qu'on vient voir : le dos de
+ * dentelle de la sirène, le bustier de la trapèze. Le détail d'une robe
+ * se joue à hauteur de buste ; le bas d'une image, c'est un ourlet, une
+ * traîne, un sol. C'est là que le texte a sa place.
+ */
+.dans-image {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-inline: clamp(1rem, 1.7vw, 1.5rem);
+  padding-block-end: clamp(1.125rem, 1.9vw, 1.75rem);
+  color: var(--color-sur-image);
+}
+
+/* Un voile très léger : la photographie reste lisible, le texte aussi.
+ * Il descend avec lui — une diagonale partant de la gauche ne tenait
+ * plus une ligne posée au bas du cadre. */
+.voile-lecture {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.42) 0%,
+    rgba(0, 0, 0, 0.18) 34%,
+    rgba(0, 0, 0, 0) 62%
+  );
+  pointer-events: none;
+}
+
+.filet {
+  height: 1px;
+  background: var(--color-fil);
+}
+
+.mesure {
+  max-width: 34ch;
+}
+.mesure-l {
+  max-width: 48ch;
+}
+
+/* Le trait qui se dessine sous un lien. */
+.souligne {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 3px;
+}
+.souligne::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease-doux);
+}
+.souligne:hover::after,
+.souligne[data-actif="true"]::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ———————————————————————————————————— apparitions ————— */
+
+/*
+ * Trois matières, chacune avec un rôle. Pas une quatrième.
+ *
+ * Le défaut, sur ce site comme partout ailleurs, était le fondu-montée
+ * posé sur tout ce qui défile : quarante éléments par page, la même
+ * entrée pour un titre, un paragraphe et une photographie. Ce n'est pas
+ * une chorégraphie, c'est un tic — et il se reconnaît immédiatement.
+ *
+ * Ce qui est animé maintenant : ce qui gagne à l'être. Le corps de texte
+ * n'est pas animé, il est là.
+ *
+ * Les états de départ ne s'appliquent que si le navigateur exécute des
+ * scripts : sans JavaScript, rien n'est masqué. Une décoration ne doit
+ * jamais pouvoir cacher une page.
+ */
+@media (scripting: enabled) {
+  /* Le rideau — pour une photographie seule.
+   *
+   * Le cadre s'ouvre par le bas, et l'image posée dedans revient d'une
+   * contre-échelle. Les deux mouvements se compensent : la photographie
+   * se développe sur place au lieu de glisser. C'est le geste d'un
+   * tirage qui apparaît, pas d'un bloc qui entre. */
+  [data-rideau] {
+    clip-path: inset(0 0 100% 0);
+    will-change: clip-path;
+  }
+  /* La contre-échelle vise l'image, pas l'enveloppe : <picture> est un
+   * élément en ligne, et une transformation n'a aucun effet dessus. */
+  [data-rideau] img {
+    transform: scale(1.06);
+    transform-origin: center 40%;
+    will-change: transform;
+  }
+
+  /* La ligne — pour un intitulé, un par section.
+   *
+   * Le texte monte de derrière un masque. Le masque est le bloc
+   * lui-même : pas d'élément ajouté, pas de balise en plus. */
+  [data-ligne] {
+    clip-path: inset(-0.3em 0 100% 0);
+    will-change: clip-path;
+  }
+  [data-ligne] > * {
+    transform: translate3d(0, 105%, 0);
+    will-change: transform;
+  }
+
+  /* La suite — pour une vraie liste. Le décalage est plafonné plus bas,
+   * dans le script : dix éléments à cinquante millisecondes suffisent, au
+   * delà on attend. */
+  [data-suite] > * {
+    opacity: 0;
+    transform: translate3d(0, 0.75rem, 0);
+    will-change: opacity, transform;
+  }
+
+  /* L'ancien fondu-montée reste pour les rares cas isolés — un bouton
+   * seul, une mention. Il n'a plus vocation à couvrir une page. */
+  [data-lever] {
+    opacity: 0;
+    transform: translate3d(0, 1.25rem, 0);
+    will-change: opacity, transform;
+  }
+
+  /* Le voile d'origine, conservé : des pages s'en servent encore. */
+  [data-voile] {
+    clip-path: inset(0 0 100% 0);
+    will-change: clip-path;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-lever],
+  [data-voile],
+  [data-rideau],
+  [data-ligne],
+  [data-suite] > *,
+  [data-rideau] img,
+  [data-ligne] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ———————————————————————————————————— le formulaire ————— */
+
+/* ———————————————————————————————————— la respiration ————— */
+
+/*
+ * Le très lent rapprochement d'une photographie plein cadre.
+ *
+ * Quarante secondes pour six pour cent : à l'échelle d'une seconde, le
+ * mouvement est de l'ordre du dixième de pixel — invisible. Ce n'est pas
+ * un effet, c'est ce qui empêche une grande image fixe de paraître
+ * morte. L'aller-retour évite la coupure d'un retour à zéro.
+ *
+ * Seule l'échelle bouge : le navigateur compose, il ne recalcule rien.
+ * Le mouvement refusé l'annule, par la règle générale plus bas.
+ */
+@keyframes respire {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+.respire {
+  animation: respire 40s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* ———————————————————————————————————— divers ————— */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-fil) transparent;
+}
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-fil);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/*
+ * Un rail n'a pas de barre.
+ *
+ * Les règles ci-dessus ne sont pas calquées : elles l'emportent sur
+ * n'importe quel utilitaire, et le filet gris de neuf pixels revenait
+ * donc se poser sous les photographies malgré `scrollbar-width: none`.
+ * Cette classe se tient au même niveau qu'elles, et gagne.
+ *
+ * On ne perd rien à l'éteindre : le débord de la dernière carte dit
+ * déjà qu'il y a autre chose à voir, et sur grand écran deux flèches le
+ * disent en toutes lettres.
+ */
+.rail {
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+/* ———————————————————————————————————— le rendez-vous ————— */
+
+/*
+ * La fenêtre Calendly, sur téléphone.
+ *
+ * Le formulaire est servi dans un cadre d'un autre domaine : sa mise en
+ * page ne nous appartient pas, et le compte de la maison ne doit pas
+ * être touché. Reste le cadre lui-même, qui est à nous.
+ *
+ * La cliente le trouvait trop gros — la fiche du rendez-vous sortait de
+ * l'écran à gauche comme à droite. On donne donc au cadre une fenêtre
+ * plus large que le téléphone, puis on la réduit à l'affichage : la page
+ * se compose comme sur un écran de 460 pixels et se lit sur 390. Rien
+ * n'est coupé, tout est un cran plus petit.
+ *
+ * La règle porte « important » à dessein : la feuille de Calendly est
+ * chargée à l'ouverture, donc après la nôtre, et l'emporterait sinon.
+ */
+@media (max-width: 767px) {
+  .calendly-popup-content {
+    overflow: hidden !important;
+  }
+
+  .calendly-popup-content > iframe {
+    /* 1 / 0,85 : la largeur rendue, avant réduction. */
+    width: 117.65% !important;
+    height: 117.65% !important;
+    transform: scale(0.85);
+    transform-origin: top left;
+  }
+
+  /*
+   * Et qu'elle occupe la hauteur.
+   *
+   * Le widget se fixe à 700 pixels quel que soit le téléphone : sur un
+   * écran de 844, la page du site reparaissait sous la fenêtre — deux
+   * photographies de robes sous le récapitulatif du rendez-vous. Les
+   * cinquante pixels du haut restent au bouton de fermeture.
+   *
+   * Le sélecteur répète la classe pour peser plus lourd que celui de
+   * Calendly : « important » ne suffit pas quand la règle d'en face
+   * l'est aussi et qu'elle est chargée après la nôtre.
+   */
+  .calendly-overlay .calendly-popup.calendly-popup {
+    height: calc(100% - 50px) !important;
+    max-height: calc(100% - 50px) !important;
+  }
+}
+
+/* ———————————————————————————————————— l'ouverture ————— */
+
+/*
+ * Le noir posé avant la première peinture.
+ *
+ * Le site est un export statique : le hero est dans le HTML, et il
+ * s'afficherait le temps que React s'hydrate. Un script du gabarit pose
+ * donc « data-ouverture » sur la racine avant que rien ne soit peint, et
+ * c'est cette règle — du CSS, pas du JavaScript — qui tient l'écran noir
+ * pendant ce temps. Sans elle, on verrait le hero une fraction de
+ * seconde avant l'ouverture, ce qui ruinerait exactement ce qu'elle
+ * cherche à faire.
+ *
+ * Le voile s'efface tout seul au bout de la séquence, par animation :
+ * si l'hydratation n'arrivait jamais, la page finirait quand même par
+ * paraître. Rien de ce qui cache le contenu ne dépend d'un script.
+ */
+html[data-ouverture] {
+  overflow: hidden;
+  /* Safari iOS ignore « overflow: hidden » sur la racine : le doigt
+   * défile quand même. Ces deux-là l'arrêtent vraiment, sans quoi un
+   * geste pendant le noir laisse la page au milieu du hero une fois le
+   * rideau levé. */
+  touch-action: none;
+  overscroll-behavior: none;
+}
+html[data-ouverture]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: #000;
+  animation: ouverture-voile 1ms linear 3350ms forwards;
+}
+@keyframes ouverture-voile {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/*
+ * La scène. Elle couvre tout — la barre est à 50, le menu à 60, Élise à
+ * 80 — et ne prend jamais le focus : c'est une image, pas une étape.
+ */
+.ouverture {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  /* La racine rend le défilement avant que la scène ne parte : pendant
+   * ce fondu, c'est la scène qui le retient. */
+  touch-action: none;
+  overscroll-behavior: none;
+  display: grid;
+  place-items: center;
+  background: #000;
+  padding: calc(env(safe-area-inset-top, 0px) + 1.5rem)
+    calc(env(safe-area-inset-right, 0px) + var(--gouttiere))
+    calc(env(safe-area-inset-bottom, 0px) + 1.5rem)
+    calc(env(safe-area-inset-left, 0px) + var(--gouttiere));
+  animation: ouverture-part 800ms var(--ease-doux) 3350ms forwards;
+}
+
+/* Les deux lignes et la signature se superposent dans la même case : la
+ * seconde ne pousse pas la première, et rien ne se déplace. */
+.ouverture-scene {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.5rem, 2.2vh, 1.25rem);
+  text-align: center;
+}
+
+.ouverture-ligne {
+  font-family: var(--font-serif);
+  font-size: clamp(1.375rem, 3vw, 2.5rem);
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  color: var(--color-ivoire);
+  opacity: 0;
+  will-change: opacity, transform;
+  animation:
+    ouverture-monte 750ms var(--ease-rideau) forwards,
+    ouverture-part 350ms linear 2050ms forwards;
+}
+.ouverture-ligne:nth-child(1) {
+  animation-delay: 450ms, 2050ms;
+}
+.ouverture-ligne:nth-child(2) {
+  animation-delay: 1200ms, 2050ms;
+}
+
+.ouverture-signature {
+  grid-area: 1 / 1;
+  width: clamp(9rem, 26vw, 15rem);
+  height: auto;
+  opacity: 0;
+  will-change: opacity, transform;
+  animation: ouverture-signature 750ms var(--ease-doux) 2250ms forwards;
+}
+
+@keyframes ouverture-monte {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes ouverture-part {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes ouverture-signature {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Passée d'un geste : tout s'arrête où c'est, et le noir s'en va. */
+.ouverture[data-passe="true"],
+.ouverture[data-passe="true"] .ouverture-ligne,
+.ouverture[data-passe="true"] .ouverture-signature {
+  animation: none;
+}
+.ouverture[data-passe="true"] {
+  opacity: 0;
+  transition: opacity 350ms var(--ease-doux);
+}
+.ouverture[data-passe="true"] .ouverture-scene,
+.ouverture[data-passe="true"] .ouverture-signature {
+  visibility: hidden;
+}
+
+/* ———————————————————————————————————— le mode sombre ————— */
+
+/*
+ * Le site est clair. Le sombre est un choix de la visiteuse, jamais une
+ * préférence devinée : « prefers-color-scheme » n'est pas consulté, car
+ * une boutique de robes de mariée se donne d'abord en clair, et un
+ * système réglé sur sombre ne dit pas qu'on veut voir la dentelle sur du
+ * noir.
+ *
+ * Rien n'est réécrit composant par composant : les jetons changent, et
+ * tout ce qui les emploie suit. C'est ce qui rend le sombre tenable —
+ * une seconde feuille de style aurait divergé au premier ajout.
+ *
+ * L'échelle est inversée par rôle et non par valeur. « blanc » est la
+ * surface la plus claire du clair : en sombre c'est la plus sombre. Les
+ * deux rouges de la maison, eux, s'éclaircissent juste assez pour rester
+ * lisibles sur du noir sans changer de famille.
+ */
+:root[data-theme="sombre"] {
+  /* Le fond est un noir absolu, à la demande de la maison. Les surfaces
+   * posées dessus — cartes, panneaux, filets — montent d'un cran en gris
+   * neutre, sans la teinte brune d'avant : sur du noir pur, elle se
+   * serait lue comme une tache. */
+  --color-blanc: #000000;
+  --color-ivoire: #0a0a0a;
+  --color-craie: #131313;
+  --color-sable: #1b1b1b;
+  --color-fil: #2a2a2a;
+
+  --color-encre: #f5f0e8;
+  --color-plume: #ded7cc;
+  --color-plomb: #a89f92;
+  --color-brume: #7d7568;
+
+  /* Les deux rouges ne bougent pas. Ce sont ceux de madamoon.fr, relevés
+   * sur sa feuille de style : #910000 pour les boutons et les liens,
+   * #CE0A2C pour ponctuer — en clair comme en sombre. */
+
+  color-scheme: dark;
+}
+
+/*
+ * Le sigle. Les deux fichiers sont posés, la feuille en masque un.
+ *
+ * Ces règles ne sont pas calquées : elles l'emportent sur les
+ * utilitaires de mise en page portés par les mêmes images, ce qui est
+ * exactement ce qu'on veut ici.
+ */
+.logo-sombre {
+  display: none;
+}
+:root[data-theme="sombre"] .logo-clair {
+  display: none;
+}
+:root[data-theme="sombre"] .logo-sombre {
+  display: block;
+}
+
+/* La photographie ne s'assombrit pas : c'est la robe qu'on vient voir.
+ * On lui retire seulement l'éclat que le fond clair lui donnait. */
+:root[data-theme="sombre"] img,
+:root[data-theme="sombre"] video {
+  filter: brightness(0.94);
+}
+
+/* Le voile de lecture posé sur les images est calculé pour du texte
+ * blanc : il ne change pas avec le thème. */
+
+/* ———————————————————————————————————— le bandeau des cookies ————— */
+
+/*
+ * Un bandeau simple, sur fond noir.
+ *
+ * Pas de vitre, pas de flou : un fond noir plein, le texte blanc, et un
+ * filet clair pour qu'il se détache aussi sur le site en mode sombre.
+ * L'angle est discret — huit pixels, le double de celui des boutons.
+ *
+ * « Tout refuser » et « Tout accepter » gardent exactement le même
+ * habit : la CNIL veut que refuser soit aussi visible qu'accepter.
+ *
+ * Le rouge est toujours celui de la maison, #910000 : sur le noir il ne
+ * se lirait pas en texte, il y devient le fond, et le texte blanc.
+ */
+.verre-cookies {
+  --vitre-texte: #ffffff;
+  --vitre-legende: rgba(255, 255, 255, 0.72);
+  --vitre-doux: rgba(255, 255, 255, 0.7);
+  --vitre-filet: rgba(255, 255, 255, 0.14);
+  --vitre-bouton: #ffffff;
+  --vitre-sur-bouton: #000000;
+  --vitre-eteint: rgba(255, 255, 255, 0.25);
+  color: var(--vitre-texte);
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  box-shadow: 0 24px 60px -18px rgba(0, 0, 0, 0.55);
+}
+/* Le fond derrière la fenêtre des préférences : une ombre, sans flou. */
+.voile-cookies {
+  background: rgba(0, 0, 0, 0.5);
+  animation: voile-cookies 400ms var(--ease-doux) both;
+}
+@keyframes voile-cookies {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .voile-cookies {
+    animation: none;
+  }
+}
+/* La fenêtre des préférences : en bas de l'écran au doigt, arrondie en
+ * haut seulement ; centrée ailleurs, arrondie partout. */
+.verre-cookies.feuille-cookies {
+  border-radius: 8px 8px 0 0;
+  border-bottom: 0;
+}
+@media (min-width: 768px) {
+  .verre-cookies.feuille-cookies {
+    border-radius: 8px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+  }
+}
+
+/* Sur le bandeau, les styles du site portent leur couleur et ne sont
+ * pas calqués : le blanc doit être redit sur eux. */
+.verre-cookies .legende {
+  color: var(--vitre-legende);
+}
+.verre-cookies .texte,
+.verre-cookies .lien-nav {
+  color: var(--vitre-texte);
+}
+.verre-cookies .text-plomb {
+  color: var(--vitre-doux);
+}
+.verre-cookies .border-fil {
+  border-color: var(--vitre-filet);
+}
+.verre-cookies .interrupteur-eteint {
+  background: var(--vitre-eteint);
+}
+.verre-cookies .croix-cookies {
+  background: var(--vitre-bouton);
+  color: var(--vitre-sur-bouton);
+}
+.verre-cookies .croix-cookies:hover {
+  background: var(--color-action);
+  color: #ffffff;
+}
+
+/* Le rouge de la maison, en fond, le texte blanc. Même corps que les
+ * mentions, même angle que les boutons. */
+.puce-rouge {
+  display: inline-block;
+  font-size: 0.625rem;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 0.4rem 0.55rem;
+  color: #ffffff;
+  background: var(--color-action);
+}
+
+/* Les boutons gardent l'angle de tous les boutons du site, quatre
+ * pixels : blancs sur le noir, rouges au survol. */
+.bouton-trait.cookies-inverse {
+  background: var(--vitre-bouton, #ffffff);
+  border-color: var(--vitre-bouton, #ffffff);
+  color: var(--vitre-sur-bouton, #14100c);
+}
+.bouton-trait.cookies-inverse:hover {
+  background: var(--color-action);
+  border-color: var(--color-action);
+  color: var(--color-sur-image);
+}
+
+/* ———————————————————————————— les flèches d'un rail, sur les côtés ————— */
+
+/*
+ * À mi-hauteur des photographies : la carte fait 68 vw (20 rem au plus)
+ * sur téléphone, entre 13 et 20 rem sur ordinateur, au format 5/7. Les
+ * flèches se posent dans la gouttière, à cheval sur le bord des images.
+ */
+.fleche-rail {
+  position: absolute;
+  z-index: 2;
+  width: 2.25rem;
+  height: 2.25rem;
+  top: calc(min(68vw, 20rem) * 0.7);
+  transform: translateY(-50%);
+}
+.fleche-rail-gauche {
+  left: max(0.375rem, calc(var(--gouttiere) / 2 - 1.125rem));
+}
+.fleche-rail-droite {
+  right: max(0.375rem, calc(var(--gouttiere) / 2 - 1.125rem));
+}
+@media (min-width: 1024px) {
+  .fleche-rail {
+    width: 2.75rem;
+    height: 2.75rem;
+    top: calc(clamp(13rem, 22vw, 20rem) * 0.7);
+  }
+  .fleche-rail-gauche {
+    left: max(0.375rem, calc(var(--gouttiere) / 2 - 1.375rem));
+  }
+  .fleche-rail-droite {
+    right: max(0.375rem, calc(var(--gouttiere) / 2 - 1.375rem));
+  }
 }
