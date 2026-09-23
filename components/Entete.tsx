@@ -65,10 +65,16 @@ export default function Entete({ surImage = false }: { surImage?: boolean }) {
           </ul>
 
           {/* Sous mille vingt-quatre pixels, la barre se réduit au
-            * strict : le sigle et le rendez-vous. */}
-          <a href={vers("/robes/")} className="lien-nav souligne lg:hidden">
-            Les robes
-          </a>
+            * strict : les robes, le sigle et le rendez-vous.
+            *
+            * C'est l'enveloppe que l'on masque, pas le lien : « .lien-nav »
+            * pose son « display » hors calque et l'emporterait sur
+            * l'utilitaire. */}
+          <span className="lg:hidden">
+            <a href={vers("/robes/")} className="lien-nav souligne">
+              Les robes
+            </a>
+          </span>
 
           <a
             href={vers("/")}
