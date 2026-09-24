@@ -54,7 +54,7 @@
    * logo de 17 px et la navigation de 12 px gardent une marge franche, et
    * la barre cesse de peser sur l'image. C'est aussi la hauteur qu'elle
    * avait déjà sous 900 px : une valeur de moins dans le système. */
-  --barre: 2.375rem;
+  --barre: 2rem;
   --entete: 3.5rem;
   --ease-doux: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-rideau: cubic-bezier(0.16, 1, 0.3, 1);
