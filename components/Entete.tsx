@@ -98,6 +98,7 @@ const RCC = [
   { href: "/trouver-ma-robe", label: T.raccourcis.trouverMaRobe },
   { href: "/showroom", label: T.raccourcis.leShowroom },
   { href: "/a-propos", label: T.raccourcis.laMaison },
+  { href: "/faq", label: T.raccourcis.lesQuestions },
   { href: "/rendez-vous", label: T.raccourcis.prendreRendezvous },
 ];
 
@@ -263,15 +264,23 @@ export default function Entete({ surImage: surPhoto = false }: { surImage?: bool
                 {T.barre.menu}
               </button>
 
+              {/* Chaque puce est une boîte flex centrée, et le lien reçoit
+                * en haut la gouttière que « .souligne » lui donne en bas :
+                * sans elle, les liens descendaient d'un pixel et demi sous
+                * MENU et FR. Le correctif est celui du site. */}
               <ul className="ml-auto hidden items-center gap-8 lg:flex">
                 {GCH.map((x) => (
-                  <li key={x.label} onMouseEnter={() => setMega(GRP[x.href] ? x.href : null)}>
+                  <li
+                    key={x.label}
+                    onMouseEnter={() => setMega(GRP[x.href] ? x.href : null)}
+                    className="flex items-center"
+                  >
                     <Lien
                       href={x.href}
                       onFocus={() => setMega(GRP[x.href] ? x.href : null)}
                       aria-expanded={GRP[x.href] ? mega === x.href : undefined}
                       aria-controls={GRP[x.href] ? "mega-navigation" : undefined}
-                      className="lien-nav souligne"
+                      className="lien-nav souligne pt-[3px]"
                     >
                       {x.label}
                     </Lien>
@@ -293,11 +302,15 @@ export default function Entete({ surImage: surPhoto = false }: { surImage?: bool
             <div className="flex min-w-0 items-center justify-end gap-6">
               <ul className="hidden items-center gap-8 lg:flex">
                 {DRT.map((x) => (
-                  <li key={x.label} onMouseEnter={() => setMega(GRP[x.href] ? x.href : null)}>
+                  <li
+                    key={x.label}
+                    onMouseEnter={() => setMega(GRP[x.href] ? x.href : null)}
+                    className="flex items-center"
+                  >
                     <Lien
                       href={x.href}
                       onFocus={() => setMega(GRP[x.href] ? x.href : null)}
-                      className="lien-nav souligne"
+                      className="lien-nav souligne pt-[3px]"
                     >
                       {x.label}
                     </Lien>

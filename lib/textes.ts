@@ -17,7 +17,7 @@ export const T = {
     coupes: "Coupes",
     morphologies: "Morphologies",
     showroom: "Showroom",
-    maison: "La maison",
+    maison: "À propos",
     catalogue: "Le catalogue",
     classer: "Classer les robes",
     parCreateur: "Par créateur",
@@ -36,7 +36,8 @@ export const T = {
     lesMorphologies: "Les morphologies",
     trouverMaRobe: "Trouver ma robe",
     leShowroom: "Le showroom",
-    laMaison: "La maison",
+    laMaison: "À propos",
+    lesQuestions: "FAQ",
     prendreRendezvous: "Prendre rendez-vous",
   },
   elise: {

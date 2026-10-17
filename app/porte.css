@@ -1,0 +1,90 @@
+/*
+ * Ce que la porte ajoute au site.
+ *
+ * « globals.css » est une copie exacte de celui de madamoon.fr, et se
+ * recopie tel quel quand le site change. Ce qui n'appartient qu'aux
+ * portes vit ici, pour qu'une recopie ne l'efface pas.
+ *
+ * Les sélecteurs sont doublés (« .legende.filtre-coupe ») pour la même
+ * raison que sur le site : les classes de la maison ne sont pas dans une
+ * couche, et l'emporteraient sinon sur ces réglages.
+ */
+
+/*
+ * Le filtre par coupe.
+ *
+ * Le dessin du bouton « Voir toutes les robes » de l'accueil — capitales
+ * espacées, filet d'encre, angle de quatre pixels — décliné en rangée.
+ * La coupe choisie se remplit d'encre : un état se lit à la forme, pas à
+ * une nuance de gris.
+ */
+.legende.filtre-coupe {
+  color: var(--color-encre);
+  border-color: var(--color-fil);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.45s var(--ease-doux),
+    border-color 0.45s var(--ease-doux),
+    color 0.45s var(--ease-doux);
+}
+
+.legende.filtre-coupe:hover {
+  border-color: var(--color-encre);
+}
+
+.legende.filtre-coupe.est-actif {
+  background: var(--color-encre);
+  border-color: var(--color-encre);
+  color: var(--color-blanc);
+}
+
+.legende.filtre-coupe:focus-visible {
+  outline: 1px solid var(--color-action);
+  outline-offset: 3px;
+}
+
+/* La rangée défile au doigt sur téléphone, sans barre de défilement : le
+ * bouton coupé au bord de l'écran dit déjà qu'il y a une suite. */
+.rangee-filtres {
+  scrollbar-width: none;
+}
+.rangee-filtres::-webkit-scrollbar {
+  display: none;
+}
+
+/*
+ * La vignette d'une maison.
+ *
+ * Plus large que haute sur téléphone — cinq tuiles au rapport d'une robe
+ * y feraient une colonne de trois écrans —, au rapport des robes ensuite.
+ */
+.vignette-maison {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+}
+
+/* Deux colonnes : la vignette reprend de la hauteur. */
+@media (min-width: 640px) {
+  .vignette-maison {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+@media (min-width: 1024px) {
+  .vignette-maison {
+    aspect-ratio: 447 / 621;
+  }
+}
+
+.vignette-maison img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 1.4s var(--ease-doux);
+}
+
+.group:hover .vignette-maison img {
+  transform: scale(1.035);
+}

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Quattrocento_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
-import { SITE } from "@/lib/site";
+import "./porte.css";
+import { PORTE, SITE } from "@/lib/site";
+import { BASE } from "@/lib/chemin";
 
 /*
  * Les portes de la maison.
@@ -14,19 +16,33 @@ import { SITE } from "@/lib/site";
  * premier clic n'attend alors ni le DNS ni la poignée de main.
  */
 
-const serif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
+/*
+ * Les polices du site, servies avec la page.
+ *
+ * Les mêmes fichiers que madamoon.fr, recopiés dans « app/polices » : le
+ * site a quitté Google Fonts, dont la récupération faisait échouer des
+ * compilations, et la porte le suit. Inter a remplacé le Quattrocento
+ * Sans là-bas ; il le remplace ici. Les deux écritures manuscrites du
+ * site n'ont pas d'usage sur une porte et ne sont pas chargées.
+ */
+const serif = localFont({
+  src: [
+    { path: "./polices/instrument-serif-400.woff2", weight: "400", style: "normal" },
+    { path: "./polices/instrument-serif-400-italic.woff2", weight: "400", style: "italic" },
+  ],
   variable: "--police-serif",
   display: "swap",
+  fallback: ["Times New Roman", "serif"],
 });
 
-const sans = Quattrocento_Sans({
-  subsets: ["latin"],
-  weight: ["400", "700"],
+const sans = localFont({
+  src: [
+    { path: "./polices/inter-variable.woff2", weight: "100 900", style: "normal" },
+    { path: "./polices/inter-variable-italic.woff2", weight: "100 900", style: "italic" },
+  ],
   variable: "--police-sans",
   display: "swap",
+  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
 
 /*
@@ -42,8 +58,29 @@ const sans = Quattrocento_Sans({
  * porte la même marque.
  */
 export const metadata: Metadata = {
+  metadataBase: new URL(PORTE),
   title: "Madamoon | Robes de mariée à Paris",
-  description: "Boutique de robes de mariée à Paris 10e, sur rendez-vous.",
+  description:
+    "Robes de mariée à Paris : sirène, princesse, fluides ou trapèze, de Casablanca Bridal, Watters, Monica Loretti et Olya Mak. Essayage privé dans le 10e.",
+  alternates: { canonical: "/" },
+  /* L'aperçu GitHub Pages ne s'indexe pas : il dirait la même chose que
+   * le domaine, à une autre adresse. Seul le domaine se compile sans
+   * chemin de base. */
+  robots: BASE ? { index: false, follow: false } : undefined,
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    siteName: "Madamoon | Robes de mariée à Paris",
+    url: "/",
+    images: [
+      {
+        url: "/partage/madamoon-showroom-paris-10e.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Le showroom MADAMOON à Paris 10e, ses fauteuils de velours et ses robes de mariée",
+      },
+    ],
+  },
 };
 
 export default function Gabarit({ children }: { children: React.ReactNode }) {

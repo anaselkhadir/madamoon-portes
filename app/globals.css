@@ -19,6 +19,12 @@
   --color-sable: #ece5da;
   --color-fil: #e3dcd1;
 
+  /* Le gris des cartes de morphologie, demandé par la boutique. À peine
+   * tiède — un gris franc aurait fait tache au milieu d'une page bâtie
+   * sur l'ivoire —, et deux crans : le fond, puis celui du survol. */
+  --color-gris: #f3f2f1;
+  --color-gris-appuye: #e9e7e5;
+
   /* Le blanc du texte posé sur une photographie. Il ne bascule jamais :
    * une image reste une image, et son voile de lecture est calculé pour
    * du blanc. « blanc » désigne une surface, et une surface s'assombrit ;
@@ -40,6 +46,9 @@
 
   --font-serif: var(--police-serif), "Times New Roman", serif;
   --font-sans: var(--police-sans), ui-sans-serif, system-ui, sans-serif;
+  /* L'anglaise du nom de la maison, sur le titre de l'accueil. */
+  --font-anglaise: var(--police-anglaise), "Snell Roundhand", cursive;
+  --font-main: var(--police-main), "Bradley Hand", cursive;
 
   --ease-doux: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-rideau: cubic-bezier(0.16, 1, 0.3, 1);
@@ -48,12 +57,15 @@
 :root {
   /* 48 px à 1440. La marge du site, partout la même. */
   --gouttiere: clamp(1.125rem, 3.34vw, 3.5rem);
-  /* 38 px de bandeau, 56 px de barre principale.
+  /* 32 px de bandeau, 56 px de barre principale.
    *
    * La référence en met 70 ; la cliente les trouve trop hauts. À 56, le
    * logo de 17 px et la navigation de 12 px gardent une marge franche, et
    * la barre cesse de peser sur l'image. C'est aussi la hauteur qu'elle
-   * avait déjà sous 900 px : une valeur de moins dans le système. */
+   * avait déjà sous 900 px : une valeur de moins dans le système.
+   *
+   * Le bandeau, lui, est passé de 38 à 32 px : ses mentions font 10 px,
+   * et onze de blanc au-dessus comme en dessous suffisent à les poser. */
   --barre: 2rem;
   --entete: 3.5rem;
   --ease-doux: cubic-bezier(0.22, 1, 0.36, 1);
@@ -70,6 +82,12 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+}
+
+/* Le bandeau de l'en-tête occupe une vraie place : le contenu commence
+ * dessous, exactement comme sur la référence. */
+main {
+  padding-top: var(--barre);
 }
 
 body {
@@ -189,6 +207,24 @@ body {
   color: var(--color-encre);
 }
 
+/* Les deux paliers du regard d'une robe, quand sa description est
+ * longue. « .phrase » est une voix de titre, faite pour deux lignes ;
+ * elle tient mal les neuf cents signes de River ou les sept cents de
+ * Santana. Le corps baisse, et l'interligne s'ouvre en retour — un
+ * petit corps serré se lit moins bien qu'un grand.
+ *
+ * La classe est doublée pour peser plus lourd que « .phrase », qui
+ * n'est pas calquée et l'emporterait à spécificité égale. */
+.phrase.est-moyenne {
+  font-size: clamp(1.125rem, 1.9vw, 1.625rem);
+  line-height: 1.4;
+}
+
+.phrase.est-longue {
+  font-size: clamp(1rem, 1.45vw, 1.25rem);
+  line-height: 1.6;
+}
+
 .texte {
   font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
   line-height: 1.7;
@@ -217,6 +253,37 @@ body {
   white-space: nowrap;
   transition: background-color 0.45s var(--ease-doux), color 0.45s var(--ease-doux),
     border-color 0.45s var(--ease-doux);
+}
+
+/*
+ * Le bouton d'une rubrique — « Voir toutes les robes », sur l'accueil.
+ *
+ * Il portait l'angle rond, seul de tout le site. La maison le veut à
+ * l'angle des boutons, et rouge au survol.
+ *
+ * Ses couleurs sont écrites ici et non en utilitaire : « .legende »
+ * porte la sienne hors calque et l'emporterait. Elle était jusqu'ici
+ * neutralisée par un « color: inherit » posé en style direct — et un
+ * style direct ne connaît pas le survol. Le « hover:text-blanc » du
+ * balisage ne s'appliquait donc jamais : au survol, le fond passait au
+ * sombre et le texte restait sombre dessus. La classe est doublée pour
+ * peser plus lourd que « .legende », et le survol redevient possible.
+ */
+.legende.bouton-rubrique {
+  color: var(--color-encre);
+  border-color: var(--color-encre);
+  transition:
+    background-color 0.45s var(--ease-doux),
+    border-color 0.45s var(--ease-doux),
+    color 0.45s var(--ease-doux);
+}
+
+/* Le blanc du texte est celui qui ne bascule pas : il se lit sur le
+ * rouge de la maison, pas sur la page. */
+.legende.bouton-rubrique:hover {
+  background: var(--color-action);
+  border-color: var(--color-action);
+  color: var(--color-sur-image);
 }
 
 /* L'action de la maison. La seule surface rouge du site. */
@@ -753,7 +820,54 @@ body {
   max-width: 48ch;
 }
 
+/*
+ * Un lien dans une phrase.
+ *
+ * « .souligne » est un bloc en ligne : son trait se dessine sur toute sa
+ * largeur, et un bloc ne se coupe pas en fin de ligne. Posé sur une
+ * ancre de dix mots — « Dove, tombé fluide en satin mat, décolleté
+ * drapé » —, il la rejetait entière à la ligne suivante, hachait la
+ * phrase et laissait le point final tout seul sur une ligne.
+ *
+ * Ici le soulignement est celui du texte : il suit les coupures, et la
+ * phrase se lit comme une phrase. Le trait est pâle au repos et se
+ * ferme au survol — même intention que l'autre, sans le bloc.
+ */
+.lien-texte {
+  text-decoration: underline;
+  text-decoration-thickness: 0.5px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  transition: text-decoration-color 0.4s var(--ease-doux);
+}
+.lien-texte:hover {
+  text-decoration-color: currentColor;
+}
+
 /* Le trait qui se dessine sous un lien. */
+/*
+ * Les passages que la maison veut en exergue dans son introduction.
+ *
+ * Gras et rouges, et non plus soulignés. Le soulignement venait du
+ * document que la maison avait envoyé ; sur un écran il dit autre
+ * chose — sur ce site, un trait sous un mot annonce un lien, et trois
+ * phrases soulignées qui ne mènent nulle part font cliquer dans le
+ * vide. La maison l'a vu d'elle-même et a demandé le changement.
+ *
+ * L'italique a remplacé le gras, à la demande de la maison, et elle
+ * joue le même rôle : le rouge est déjà la couleur des liens de ce
+ * site. Rouge seul, ces passages se seraient donnés pour des liens à
+ * leur tour — on aurait remplacé un faux signal par un autre. Aucun
+ * lien n'est en italique ici, et c'est ce qui les en distingue.
+ *
+ * Elle demande en revanche que la police porte une vraie italique :
+ * voir « Gabarit », où elle est désormais téléchargée.
+ */
+.exergue {
+  font-style: italic;
+  color: var(--color-action);
+}
+
 .souligne {
   position: relative;
   display: inline-block;
@@ -1157,6 +1271,11 @@ html[data-ouverture]::before {
   --color-sable: #1b1b1b;
   --color-fil: #2a2a2a;
 
+  /* Le gris des cartes suit le reste : sur du noir, c'est la surface qui
+   * monte d'un cran, pas la teinte qui s'inverse. */
+  --color-gris: #131313;
+  --color-gris-appuye: #1e1e1e;
+
   --color-encre: #f5f0e8;
   --color-plume: #ded7cc;
   --color-plomb: #a89f92;
@@ -1330,6 +1449,25 @@ html[data-ouverture]::before {
 .fleche-rail-droite {
   right: max(0.375rem, calc(var(--gouttiere) / 2 - 1.125rem));
 }
+/*
+ * Le rail des robes de l'accueil.
+ *
+ * Ses tuiles ne sont pas celles des maisons : trois cinquièmes au lieu
+ * de cinq septièmes, et cinquante-huit pour cent de la fenêtre au lieu
+ * de soixante-huit. La mi-hauteur se calcule donc à part — cinq tiers
+ * de la largeur, divisés par deux, soit cinq sixièmes.
+ *
+ * À six cent quarante pixels, la tuile passe à trente-huit pour cent.
+ */
+.fleche-rail-robes {
+  top: calc(58vw * 0.833);
+}
+@media (min-width: 640px) {
+  .fleche-rail-robes {
+    top: calc(38vw * 0.833);
+  }
+}
+
 @media (min-width: 1024px) {
   .fleche-rail {
     width: 2.75rem;

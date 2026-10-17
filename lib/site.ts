@@ -2,12 +2,19 @@
  * Le site officiel.
  *
  * Ces pages vivent sur d'autres domaines, mais elles appartiennent à la
- * maison : toute la navigation y renvoie. L'adresse se règle ici — elle
- * pointera sur madamoon.fr le jour de la mise en ligne, et sur l'aperçu
- * tant qu'il fait office de site.
+ * maison : toute la navigation y renvoie. L'adresse se règle ici :
+ * madamoon.fr, en ligne depuis octobre 2026.
  */
 
-export const SITE = process.env.NEXT_PUBLIC_SITE ?? "https://anaselkhadir.github.io/madamoon-v7";
+export const SITE = process.env.NEXT_PUBLIC_SITE ?? "https://madamoon.fr";
+
+/*
+ * Le domaine de cette porte.
+ *
+ * L'adresse canonique de la page, celle que Google retient et que le
+ * partage affiche. Une seule ligne par domaine, réglée à la compilation.
+ */
+export const PORTE = process.env.NEXT_PUBLIC_PORTE ?? "https://robedemarieeparis.fr";
 
 /*
  * Une adresse du site officiel, à partir d'un chemin.
@@ -55,7 +62,7 @@ export const NAVIGATION = {
   ],
   droite: [
     ["/showroom/", "Showroom"],
-    ["/a-propos/", "La maison"],
+    ["/a-propos/", "À propos"],
   ],
   createurs: [
     ["/createurs/watters-designs/", "Watters Designs"],

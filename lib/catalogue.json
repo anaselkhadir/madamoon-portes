@@ -35,35 +35,90 @@
   {
    "nom": "Sirène",
    "ancre": "sirene",
-   "note": "Féminine et sensuelle",
-   "famille": "Ajustée jusqu'aux cuisses, puis évasée. Elle dessine la taille et les hanches."
+   "note": "Féminine et sensuelle"
   },
   {
    "nom": "Princesse",
    "ancre": "princesse",
-   "note": "Raffinée et solennelle",
-   "famille": "Un corset travaillé et un volume de jupe assumé."
+   "note": "Raffinée et solennelle"
   },
   {
    "nom": "Fluide",
    "ancre": "fluide",
-   "note": "Souple et légère",
-   "famille": "Un tombé souple qui suit naturellement le mouvement."
+   "note": "Souple et légère"
   },
   {
    "nom": "Trapèze",
    "ancre": "trapeze",
-   "note": "Juste et intemporelle",
-   "famille": "Un buste ajusté, une jupe qui s'ouvre en A. La coupe la plus universelle."
+   "note": "Juste et intemporelle"
   },
   {
    "nom": "Deux en un",
    "ancre": "deux-en-un",
-   "note": "Deux allures, une robe",
-   "famille": "Une robe, deux allures : une surjupe ou une traîne qui se détache."
+   "note": "Deux allures, une robe"
   }
  ],
  "robes": [
+  {
+   "slug": "santana",
+   "nom": "Santana",
+   "coupe": "Princesse",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "sheridan",
+   "nom": "Sheridan",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "guinevere",
+   "nom": "Guinevere",
+   "coupe": "Princesse",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "aleida",
+   "nom": "Aleida",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "oksana",
+   "nom": "Oksana",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "hayes",
+   "nom": "Hayes",
+   "coupe": "Princesse",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "enid",
+   "nom": "Enid",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "bondi",
+   "nom": "Bondi",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "bella",
+   "nom": "Bella",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "fancy",
+   "nom": "Fancy",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
   {
    "slug": "uma",
    "nom": "Uma",
@@ -143,12 +198,6 @@
    "createur": "Casablanca Bridal"
   },
   {
-   "slug": "ariel",
-   "nom": "Ariel",
-   "coupe": "Sirène",
-   "createur": "Casablanca Bridal"
-  },
-  {
    "slug": "addison",
    "nom": "Addison",
    "coupe": "Princesse",
@@ -157,6 +206,12 @@
   {
    "slug": "montana",
    "nom": "Montana",
+   "coupe": "Sirène",
+   "createur": "Casablanca Bridal"
+  },
+  {
+   "slug": "ariel",
+   "nom": "Ariel",
    "coupe": "Sirène",
    "createur": "Casablanca Bridal"
   },
@@ -307,7 +362,7 @@
   {
    "slug": "mitra",
    "nom": "Mitra",
-   "coupe": "Princesse",
+   "coupe": "Trapèze",
    "createur": "Watters Designs"
   },
   {
@@ -367,7 +422,7 @@
   {
    "slug": "milan",
    "nom": "Milan",
-   "coupe": "Fluide",
+   "coupe": "Sirène",
    "createur": "Monica Loretti"
   },
   {
