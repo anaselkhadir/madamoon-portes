@@ -37,10 +37,6 @@ const MAISONS: Record<string, string> = {
     "Des ateliers indépendants que la boutique choisit elle-même, pour des modèles que l'on ne croise pas ailleurs à Paris.",
 };
 
-/* Le nombre de robes d'une maison. */
-const enVitrine = (nom: string) =>
-  VITRINE.filter((r) => (nom === "Autres créateurs" ? !r.createur : r.createur === nom)).length;
-
 /* La liste des robes, pour les moteurs : chacune pointe vers sa fiche
  * sur madamoon.fr, qui est la page de référence de la robe. */
 const LISTE = {
@@ -80,7 +76,7 @@ export default function Porte() {
             </div>
             <div className="lg:col-span-5">
               <p className="texte mesure-l">
-                Les {VITRINE.length} robes de la boutique, de Casablanca Bridal à Monica Loretti.
+                Toutes les robes de la boutique, de Casablanca Bridal à Monica Loretti.
                 Filtrez par coupe, ouvrez celle qui vous arrête, puis venez l&rsquo;essayer au
                 showroom du faubourg Saint-Martin.
               </p>
@@ -122,7 +118,7 @@ export default function Porte() {
               Les créateurs
             </h2>
             <p className="texte mesure-l lg:col-span-7">
-              Quatre maisons et quelques ateliers indépendants, choisis un à un. Chacune a sa
+              Des maisons et des ateliers indépendants, choisis un à un. Chacune a sa
               main : on reconnaît une Casablanca à sa lumière, une Monica Loretti à sa retenue.
             </p>
           </div>
@@ -130,7 +126,6 @@ export default function Porte() {
           <ul className="gouttiere grid grid-cols-1 gap-x-[1.5px] gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
             {CREATEURS.map((c) => {
               const vignette = VIGNETTES[c.slug];
-              const n = enVitrine(c.nom);
               return (
                 <li key={c.slug}>
                   <a href={vers(`/createurs/${c.slug}/`)} className="group block">
@@ -142,27 +137,6 @@ export default function Porte() {
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
                           position="50% 30%"
                         />
-                      )}
-                      {/* Le compte est posé dans l'image, en repère, comme la
-                        * maison sur les tuiles de robes : sous le texte, il
-                        * tombait à une hauteur différente pour chaque maison,
-                        * selon la longueur de sa phrase. */}
-                      {n > 0 && (
-                        <>
-                          {/* Le voile part du haut, là où se lit le repère : celui
-                            * des tuiles monte du bas, vers le nom. */}
-                          <span
-                            aria-hidden="true"
-                            className="pointer-events-none absolute inset-0"
-                            style={{
-                              background:
-                                "linear-gradient(to bottom, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.12) 22%, rgba(0,0,0,0) 40%)",
-                            }}
-                          />
-                          <span className="mention absolute left-[clamp(1rem,1.7vw,1.5rem)] top-[clamp(1rem,1.7vw,1.5rem)] text-sur-image/90">
-                            {n} robe{n > 1 ? "s" : ""}
-                          </span>
-                        </>
                       )}
                     </div>
                     <div className="pr-4 pt-5">

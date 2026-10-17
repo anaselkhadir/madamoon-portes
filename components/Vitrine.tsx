@@ -18,8 +18,10 @@ import { VITRINE, altRobe } from "@/lib/vitrine";
  * coupes tiennent sur une ligne, et l'on voit d'emblée ce qu'on peut
  * choisir. Sur téléphone, la rangée défile au doigt plutôt que de passer
  * à la ligne : sur trois lignes, elle repoussait la première robe hors du
- * premier écran. Chaque bouton porte son compte, pour qu'aucun ne mène à une
- * trame presque vide sans prévenir.
+ * premier écran.
+ *
+ * Aucun nombre n'est affiché — ni sur les boutons, ni sous la rangée :
+ * la maison ne veut pas que l'on compte ses robes.
  *
  * Seules les robes retenues sont rendues, et non toutes masquées sauf
  * quelques-unes : la trame centre son dernier rang en comptant ses
@@ -47,8 +49,6 @@ export default function Vitrine() {
 
   /* Les coupes présentes dans la vitrine, dans l'ordre du catalogue. */
   const coupes = CATEGORIES.filter((c) => VITRINE.some((r) => r.coupe === c));
-  const compte = (c: string) =>
-    c === TOUTES ? VITRINE.length : VITRINE.filter((r) => r.coupe === c).length;
   const robes = coupe === TOUTES ? VITRINE : VITRINE.filter((r) => r.coupe === coupe);
 
   return (
@@ -73,19 +73,15 @@ export default function Vitrine() {
                 }`}
               >
                 {c}
-                <span className="tabular-nums opacity-60">{compte(c)}</span>
               </button>
             );
           })}
         </div>
 
-        {/* Annoncé aux lecteurs d'écran : le nombre de robes change au
-          * clic, et rien d'autre ne le dirait. */}
+        {/* Annoncé aux lecteurs d'écran : la ligne change au clic, et
+          * rien d'autre ne dirait que la trame a changé. */}
         <p className="texte mb-[clamp(1.25rem,3vw,2.5rem)] mt-4 sm:mt-5" aria-live="polite">
-          {LIGNES[coupe]}{" "}
-          <span className="text-plomb">
-            {robes.length} robe{robes.length > 1 ? "s" : ""}.
-          </span>
+          {LIGNES[coupe]}
         </p>
       </div>
 
