@@ -13,8 +13,13 @@ export const SITE = process.env.NEXT_PUBLIC_SITE ?? "https://madamoon.fr";
  *
  * L'adresse canonique de la page, celle que Google retient et que le
  * partage affiche. Une seule ligne par domaine, réglée à la compilation.
+ *
+ * Le domaine porte un accent — robedemariéeparis.fr — et s'écrit donc ici
+ * sous sa forme DNS, celle que le navigateur envoie réellement : la forme
+ * accentuée n'est qu'un affichage. Les navigateurs la remontrent avec son
+ * accent dans la barre d'adresse.
  */
-export const PORTE = process.env.NEXT_PUBLIC_PORTE ?? "https://robedemarieeparis.fr";
+export const PORTE = process.env.NEXT_PUBLIC_PORTE ?? "https://xn--robedemarieparis-kqb.fr";
 
 /*
  * Une adresse du site officiel, à partir d'un chemin.

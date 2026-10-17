@@ -1,7 +1,7 @@
 # MADAMOON — les portes
 
 Les pages posées sur les autres domaines de la maison —
-`robedemarieeparis.fr`, `boutiquederobesdemarieeaparis.fr` — au design du
+`robedemariéeparis.fr` (forme DNS `xn--robedemarieparis-kqb.fr`), `boutiquederobesdemarieeaparis.fr` — au design du
 site, avec sa barre de navigation et son pied de page.
 
 **Toute la navigation renvoie à madamoon.fr**, par des liens ordinaires :
@@ -22,9 +22,9 @@ npm run build:domaine    # un vrai domaine, à la racine
 
 L'adresse du site officiel se règle par `NEXT_PUBLIC_SITE` (madamoon.fr
 par défaut), celle de la porte par `NEXT_PUBLIC_PORTE`
-(robedemarieeparis.fr par défaut) : c'est l'adresse canonique de la page.
+(robedemariéeparis.fr par défaut, sous sa forme DNS) : c'est l'adresse canonique de la page.
 
-## robedemarieeparis.fr
+## robedemariéeparis.fr
 
 Toutes les robes de la boutique, filtrables par coupe, puis les
 créateurs et l'essayage. Les textes sont écrits pour ce domaine et ne reprennent pas

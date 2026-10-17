@@ -7,7 +7,7 @@ import { MAISON, PLAN, PORTE, vers } from "@/lib/site";
 import { VIGNETTES, VITRINE } from "@/lib/vitrine";
 
 /*
- * robedemarieeparis.fr — les robes.
+ * robedemariéeparis.fr — les robes.
  *
  * Le domaine dit ce que l'on cherche : une robe de mariée, à Paris. La
  * page répond par des robes, tout de suite — un titre, deux lignes, puis
