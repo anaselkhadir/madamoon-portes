@@ -2,18 +2,17 @@ import Entete from "@/components/Entete";
 import Pied from "@/components/Pied";
 import Photo from "@/components/Photo";
 import Vitrine from "@/components/Vitrine";
-import { CREATEURS, ROBES } from "@/lib/donnees";
+import { CREATEURS } from "@/lib/donnees";
 import { MAISON, PLAN, PORTE, vers } from "@/lib/site";
 import { VIGNETTES, VITRINE } from "@/lib/vitrine";
 
 /*
- * robedemarieeparis.fr — la sélection.
+ * robedemarieeparis.fr — les robes.
  *
  * Le domaine dit ce que l'on cherche : une robe de mariée, à Paris. La
  * page répond par des robes, tout de suite — un titre, deux lignes, puis
- * la vitrine. Pas toutes les robes de la boutique : celles qui se
- * montrent le mieux, choisies sur leur photographie. Le catalogue entier
- * reste sur madamoon.fr, et la page y renvoie.
+ * la vitrine : toutes les robes de la boutique, avec un filtre par coupe.
+ * Chacune ouvre sa fiche sur madamoon.fr.
  *
  * Viennent ensuite les maisons, en une rangée, puis l'essayage : ce que
  * la mariée vient finalement chercher, et la seule chose qu'un écran ne
@@ -24,11 +23,10 @@ import { VIGNETTES, VITRINE } from "@/lib/vitrine";
  * classement au lieu d'en tenir deux.
  */
 
-/* Ce que chaque maison a de particulier, dit pour cette page. Les robes
- * citées sont toutes dans la vitrine, plus haut. */
+/* Ce que chaque maison a de particulier, dit pour cette page. */
 const MAISONS: Record<string, string> = {
   "casablanca-bridal":
-    "Les robes les plus lumineuses de la sélection : des satins qui accrochent la lumière, des dentelles posées motif par motif, des traînes longues.",
+    "Les robes les plus lumineuses de la boutique : des satins qui accrochent la lumière, des dentelles posées motif par motif, des traînes longues.",
   "watters-designs":
     "Des dentelles fines sur tulle, des dos travaillés, et des tombés qui restent légers jusque sous une traîne.",
   "monica-loretti":
@@ -39,7 +37,7 @@ const MAISONS: Record<string, string> = {
     "Des ateliers indépendants que la boutique choisit elle-même, pour des modèles que l'on ne croise pas ailleurs à Paris.",
 };
 
-/* Le nombre de robes d'une maison dans la vitrine. */
+/* Le nombre de robes d'une maison. */
 const enVitrine = (nom: string) =>
   VITRINE.filter((r) => (nom === "Autres créateurs" ? !r.createur : r.createur === nom)).length;
 
@@ -48,7 +46,7 @@ const enVitrine = (nom: string) =>
 const LISTE = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "Robes de mariée à Paris — la sélection MADAMOON",
+  name: "Robes de mariée à Paris — MADAMOON",
   url: `${PORTE}/`,
   numberOfItems: VITRINE.length,
   itemListElement: VITRINE.map((r, i) => ({
@@ -82,18 +80,18 @@ export default function Porte() {
             </div>
             <div className="lg:col-span-5">
               <p className="texte mesure-l">
-                {VITRINE.length} robes choisies dans la collection de la boutique, pour leur ligne
-                et leur lumière. Filtrez par coupe, ouvrez celle qui vous arrête, puis venez
-                l&rsquo;essayer au showroom du faubourg Saint-Martin.
+                Les {VITRINE.length} robes de la boutique, de Casablanca Bridal à Monica Loretti.
+                Filtrez par coupe, ouvrez celle qui vous arrête, puis venez l&rsquo;essayer au
+                showroom du faubourg Saint-Martin.
               </p>
               <div className="mt-6 flex flex-wrap gap-3 sm:mt-7">
-                {/* Sur téléphone, la sélection commence juste dessous : le
+                {/* Sur téléphone, les robes commencent juste dessous : le
                   * bouton qui y mène ne ferait que repousser les robes. Le
                   * masque est sur une enveloppe : « .bouton » n'est pas dans
                   * une couche et l'emporterait sur « hidden ». */}
                 <span className="hidden sm:inline-flex">
                   <a href="#selection" className="bouton">
-                    Voir la sélection
+                    Voir les robes
                   </a>
                 </span>
                 <a href={vers("/rendez-vous/")} className="bouton-trait">
@@ -104,14 +102,14 @@ export default function Porte() {
           </div>
         </section>
 
-        {/* ————— La sélection ————— */}
+        {/* ————— Les robes ————— */}
         <section id="selection" aria-labelledby="titre-selection" className="scroll-mt-[var(--barre)]">
           <div className="gouttiere flex flex-wrap items-baseline justify-between gap-x-6 gap-y-3 border-t border-fil pb-6 pt-[clamp(2rem,4vw,3rem)]">
             <h2 id="titre-selection" className="titre-section">
-              La sélection
+              Les robes
             </h2>
-            <a href={vers("/robes/")} className="lien-nav souligne text-action">
-              Les {ROBES.length} robes de la boutique
+            <a href={vers("/rendez-vous/")} className="lien-nav souligne text-action">
+              Prendre rendez-vous
             </a>
           </div>
           <Vitrine />
@@ -162,7 +160,7 @@ export default function Porte() {
                             }}
                           />
                           <span className="mention absolute left-[clamp(1rem,1.7vw,1.5rem)] top-[clamp(1rem,1.7vw,1.5rem)] text-sur-image/90">
-                            {n} robe{n > 1 ? "s" : ""} dans la sélection
+                            {n} robe{n > 1 ? "s" : ""}
                           </span>
                         </>
                       )}

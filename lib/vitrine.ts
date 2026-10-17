@@ -3,10 +3,9 @@ import vitrine from "@/lib/vitrine.json";
 /*
  * La vitrine de la porte.
  *
- * Les robes choisies pour leur photographie, et la vignette de chaque
- * maison. Le fichier est écrit par « outils/catalogue.ts » depuis le
- * site : on ne le corrige pas à la main, on corrige la sélection dans le
- * script et on le relance.
+ * Les robes, dans l'ordre de la trame, et la vignette de chaque maison.
+ * Le fichier est écrit par « outils/catalogue.ts » depuis le site : on ne
+ * le corrige pas à la main, on corrige le script et on le relance.
  */
 
 export type Media = {

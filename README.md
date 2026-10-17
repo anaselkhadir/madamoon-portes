@@ -26,21 +26,21 @@ par défaut), celle de la porte par `NEXT_PUBLIC_PORTE`
 
 ## robedemarieeparis.fr
 
-Une sélection de robes, filtrable par coupe, puis les créateurs et
-l'essayage. Les textes sont écrits pour ce domaine et ne reprennent pas
+Toutes les robes de la boutique, filtrables par coupe, puis les
+créateurs et l'essayage. Les textes sont écrits pour ce domaine et ne reprennent pas
 ceux du site : deux adresses qui disent la même chose se partagent un
 classement.
 
 ## Les données viennent du site
 
-Le menu, la sélection et ses photographies sont recopiés de madamoon-v7
+Le menu, les robes et leurs photographies sont recopiés de madamoon-v7
 par un script, jamais à la main :
 
 ```bash
 cd ../madamoon-v7 && npx tsx ../madamoon-portes/outils/catalogue.ts
 ```
 
-La liste des robes en vitrine est en tête de `outils/catalogue.ts`.
+Les robes qui ouvrent la trame sont listées en tête de `outils/catalogue.ts`.
 
 `app/globals.css` est une copie exacte de celui du site : il se recopie
 tel quel. Ce qui n'appartient qu'aux portes est dans `app/porte.css`.

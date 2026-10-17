@@ -7,12 +7,12 @@
  *
  *   lib/catalogue.json   le menu — maisons, coupes, morphologies et le
  *                        nom de chaque robe, comme avant ;
- *   lib/vitrine.json     la sélection des portes, avec ses photographies,
- *                        et la vignette de chaque maison.
+ *   lib/vitrine.json     les robes de la vitrine, dans leur ordre, avec
+ *                        leurs photographies, et la vignette de chaque maison.
  *
- * Il copie aussi les fichiers d'image de la sélection, et eux seuls,
- * dans public/robes : une porte ne transporte pas les soixante-sept
- * robes du site.
+ * Il copie aussi les photographies de couverture dans public/robes —
+ * une par robe, et pas les autres vues : la porte ne montre que des
+ * tuiles.
  *
  * Il se lance depuis le dossier du site, pour que ses alias « @/ »
  * se résolvent :
@@ -30,20 +30,20 @@ const SITE = process.cwd();
 const PORTES = resolve(__dirname, "..");
 
 /*
- * La sélection.
+ * L'ordre de la vitrine.
  *
- * Toutes les robes du site ne sont pas ici : la maison a voulu les plus
- * belles à l'écran. Le tri s'est fait sur la photographie de couverture
- * — une robe vue en pied, dans un décor qui la sert, et un fichier assez
- * grand pour tenir une tuile sur un écran Retina. Sont restées dehors
- * les photos de moins de mille pixels de large, les robes courtes, et
- * les cadrages qui coupent la robe.
+ * La porte montre toutes les robes du site : la maison l'a demandé après
+ * avoir vu une première version réduite à vingt-quatre. Ces vingt-quatre
+ * gardent pourtant la tête de la trame. Elles avaient été choisies sur
+ * leur photographie — une robe vue en pied, dans un décor qui la sert, et
+ * un fichier assez grand pour un écran Retina — : ce sont elles qu'on
+ * voit au premier écran, et sous chaque filtre. Les autres suivent, dans
+ * l'ordre du catalogue du site.
  *
- * Chaque coupe y garde des représentantes, sinon son filtre serait vide.
- * L'ordre est celui de l'affichage : il alterne les coupes et les
- * maisons, pour que la première rangée montre déjà l'étendue du choix.
+ * L'ordre de tête alterne les coupes et les maisons, pour que la première
+ * rangée montre déjà l'étendue du choix.
  */
-const SELECTION = [
+const EN_TETE = [
   "santana",
   "sheridan",
   "solana",
@@ -134,12 +134,12 @@ const catalogue = {
   categories: CATEGORIES,
 };
 
-/* Le dossier repart de zéro : une robe retirée de la sélection ne doit
+/* Le dossier repart de zéro : une robe retirée du catalogue ne doit
  * pas laisser ses photographies derrière elle. */
 rmSync(join(PORTES, "public/robes"), { recursive: true, force: true });
 
 const vitrine = {
-  robes: SELECTION.map((slug) => {
+  robes: [...EN_TETE, ...ROBES.map((r) => r.slug).filter((slug) => !EN_TETE.includes(slug))].map((slug) => {
     const r = ROBES.find((x) => x.slug === slug)!;
     const media = reduire(couverture(slug));
     copier(media);

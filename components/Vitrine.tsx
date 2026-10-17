@@ -7,7 +7,7 @@ import { vers } from "@/lib/site";
 import { VITRINE, altRobe } from "@/lib/vitrine";
 
 /*
- * La vitrine : les robes choisies, et un filtre par coupe.
+ * La vitrine : toutes les robes, et un filtre par coupe.
  *
  * Les tuiles sont celles du site — la photographie au rapport de la
  * référence, le nom en serif posé en bas, la maison en repère —, et
@@ -24,8 +24,8 @@ import { VITRINE, altRobe } from "@/lib/vitrine";
  * Seules les robes retenues sont rendues, et non toutes masquées sauf
  * quelques-unes : la trame centre son dernier rang en comptant ses
  * enfants, et une tuile cachée compterait encore. La page compilée part
- * sur « Toutes » : les vingt-quatre liens sont dans le HTML, lisibles
- * sans script, et par Google.
+ * sur « Toutes » : chaque robe a son lien dans le HTML, lisible sans
+ * script, et par Google.
  */
 
 const TOUTES = "Toutes";
@@ -45,7 +45,7 @@ const LIGNES: Record<string, string> = {
 export default function Vitrine() {
   const [coupe, setCoupe] = useState(TOUTES);
 
-  /* Les coupes présentes dans la sélection, dans l'ordre du catalogue. */
+  /* Les coupes présentes dans la vitrine, dans l'ordre du catalogue. */
   const coupes = CATEGORIES.filter((c) => VITRINE.some((r) => r.coupe === c));
   const compte = (c: string) =>
     c === TOUTES ? VITRINE.length : VITRINE.filter((r) => r.coupe === c).length;
