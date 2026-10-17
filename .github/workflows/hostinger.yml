@@ -74,7 +74,10 @@ jobs:
         env:
           SERVEUR: ${{ secrets.PORTE_FTP_SERVEUR }}
           UTILISATEUR: ${{ secrets.PORTE_FTP_UTILISATEUR }}
-          MOTDEPASSE: ${{ secrets.PORTE_FTP_MOTDEPASSE }}
+          # lftp lit le mot de passe dans cette variable (« --env-password ») :
+          # passé dans « -u utilisateur,motdepasse », une virgule ou une
+          # barre oblique inverse du mot de passe le couperait.
+          LFTP_PASSWORD: ${{ secrets.PORTE_FTP_MOTDEPASSE }}
           DOSSIER: ${{ inputs.dossier }}
         run: |
           sudo apt-get install -y -qq lftp > /dev/null
@@ -90,12 +93,12 @@ jobs:
           # FTP-Deploy-Action, ne vérifie rien de plus : c'est son réglage
           # par défaut, le même que pour madamoon.fr.
           OPTS="set ftp:ssl-force true; set ssl:check-hostname no;"
-          lftp -u "$UTILISATEUR,$MOTDEPASSE" "$SERVEUR" \
+          lftp -u "$UTILISATEUR" --env-password "$SERVEUR" \
             -e "$OPTS cls -1 '$DOSSIER' > distant/liste.txt; bye" \
             || { echo "::error::Dossier distant illisible. Rien n'a été envoyé."; exit 1; }
           echo "Contenu du dossier distant :"; cat distant/liste.txt
           # Les deux fichiers peuvent manquer sur un dossier neuf.
-          lftp -u "$UTILISATEUR,$MOTDEPASSE" "$SERVEUR" \
+          lftp -u "$UTILISATEUR" --env-password "$SERVEUR" \
             -e "$OPTS cd '$DOSSIER'; get -O distant sitemap.xml; get -O distant robots.txt; bye" || true
           if grep -qi "madamoon.fr" distant/sitemap.xml distant/robots.txt 2>/dev/null; then
             echo "::error::Ce dossier est celui de madamoon.fr. Rien n'a été envoyé."; exit 1
