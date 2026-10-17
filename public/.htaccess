@@ -1,0 +1,62 @@
+# Les réglages Apache d'une porte, chez Hostinger.
+#
+# Repris de celui de madamoon.fr, sans ses redirections : celles-là
+# renvoient les anciennes adresses du WordPress, qui n'ont jamais existé
+# sur ce domaine.
+
+RewriteEngine On
+
+# HTTPS partout, et le domaine sans « www ».
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# La page de la porte avant le « default.php » qu'Hostinger pose dans un
+# site neuf.
+DirectoryIndex index.html index.php
+ErrorDocument 404 /404.html
+
+# Les types que le serveur ne connaît pas de lui-même. Sans eux, l'AVIF
+# partait en « text/plain » — et avec « nosniff », plus bas, un
+# navigateur a le droit de refuser une image ainsi annoncée.
+<IfModule mod_mime.c>
+  AddType image/avif .avif
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
+</IfModule>
+
+# Une redirection se garde dix minutes, pas indéfiniment : le CDN
+# d'Hostinger conserve sans limite celles qui ne disent rien.
+<IfModule mod_headers.c>
+  Header always set Cache-Control "public, max-age=600" "expr=%{REQUEST_STATUS} >= 300 && %{REQUEST_STATUS} < 400"
+</IfModule>
+
+# Les fichiers de Next portent leur empreinte dans leur nom : ils se
+# gardent un an. Les photographies, trente jours — une photo remplacée
+# doit donc changer de nom, ou les visiteuses verront l'ancienne. La
+# page, dix minutes.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  <FilesMatch "\.(js|css|woff2)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(avif|webp|jpe?g|png|svg)$">
+    ExpiresDefault "access plus 30 days"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    ExpiresDefault "access plus 10 minutes"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml text/xml application/xml
+</IfModule>
+
+Options -Indexes
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
