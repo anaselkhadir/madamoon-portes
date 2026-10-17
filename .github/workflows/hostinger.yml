@@ -1,0 +1,106 @@
+# Met une porte en ligne chez Hostinger, par FTP.
+#
+# Déclenchement à la main seulement, comme pour madamoon.fr.
+#
+# madamoon.fr ne doit jamais être touché. Trois verrous y veillent :
+#
+#   1. Les identifiants ne sont pas ceux du site. Chaque domaine est un
+#      site à part dans hPanel, avec son propre compte FTP, dont la racine
+#      est son propre dossier : ce compte ne voit pas celui de madamoon.fr.
+#      Les secrets portent un autre nom (PORTE_FTP_*) pour qu'on ne puisse
+#      pas y coller ceux du site par mégarde.
+#
+#   2. Avant tout envoi, le dossier distant est lu. S'il contient un
+#      « sitemap.xml » ou un « robots.txt » qui nomme madamoon.fr, c'est
+#      le site officiel : l'envoi s'arrête là, sans rien écrire.
+#
+#   3. La page compilée doit annoncer le domaine visé comme adresse
+#      canonique. Une compilation faite pour un autre domaine ne part pas.
+#
+# Secrets à créer dans ce dépôt (Settings → Secrets → Actions), avec le
+# compte FTP du site robedemarieeparis.fr (hPanel → ce site → Comptes FTP) :
+# PORTE_FTP_SERVEUR, PORTE_FTP_UTILISATEUR, PORTE_FTP_MOTDEPASSE.
+name: Mise en ligne Hostinger
+
+on:
+  workflow_dispatch:
+    inputs:
+      domaine:
+        description: Domaine de la porte (sans https://)
+        default: robedemarieeparis.fr
+        required: true
+      dossier:
+        description: Dossier de destination, vu depuis le compte FTP de ce domaine
+        default: /public_html/
+        required: true
+
+concurrency:
+  group: hostinger-portes
+  cancel-in-progress: false
+
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Le domaine n'est pas madamoon.fr
+        run: |
+          case "${{ inputs.domaine }}" in
+            madamoon.fr|www.madamoon.fr|*.madamoon.fr)
+              echo "::error::Ce workflow ne publie jamais madamoon.fr."; exit 1;;
+          esac
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Export statique
+        env:
+          NEXT_PUBLIC_PORTE: https://${{ inputs.domaine }}
+        run: npm run build:domaine
+
+      - name: La page annonce le bon domaine
+        run: |
+          grep -q '<link rel="canonical" href="https://${{ inputs.domaine }}/"' out/index.html \
+            || { echo "::error::L'adresse canonique n'est pas https://${{ inputs.domaine }}/"; exit 1; }
+
+      - name: Le dossier distant n'est pas madamoon.fr
+        env:
+          SERVEUR: ${{ secrets.PORTE_FTP_SERVEUR }}
+          UTILISATEUR: ${{ secrets.PORTE_FTP_UTILISATEUR }}
+          MOTDEPASSE: ${{ secrets.PORTE_FTP_MOTDEPASSE }}
+          DOSSIER: ${{ inputs.dossier }}
+        run: |
+          sudo apt-get install -y -qq lftp > /dev/null
+          mkdir -p distant
+          # La liste doit se lire : un dossier qu'on ne peut pas voir est un
+          # dossier qu'on ne sait pas protéger, et rien ne part.
+          lftp -u "$UTILISATEUR,$MOTDEPASSE" "$SERVEUR" \
+            -e "set ftp:ssl-force true; cls -1 '$DOSSIER' > distant/liste.txt; bye" \
+            || { echo "::error::Dossier distant illisible. Rien n'a été envoyé."; exit 1; }
+          echo "Contenu du dossier distant :"; cat distant/liste.txt
+          # Les deux fichiers peuvent manquer sur un dossier neuf.
+          lftp -u "$UTILISATEUR,$MOTDEPASSE" "$SERVEUR" \
+            -e "set ftp:ssl-force true; cd '$DOSSIER'; get -O distant sitemap.xml; get -O distant robots.txt; bye" || true
+          if grep -qi "madamoon.fr" distant/sitemap.xml distant/robots.txt 2>/dev/null; then
+            echo "::error::Ce dossier est celui de madamoon.fr. Rien n'a été envoyé."; exit 1
+          fi
+          # Les rubriques que seul le site possède.
+          if grep -qiE "(^|/)(createurs|morphologies|coupes|showroom)/?$" distant/liste.txt; then
+            echo "::error::Ce dossier contient les rubriques de madamoon.fr. Rien n'a été envoyé."; exit 1
+          fi
+
+      - name: Envoi FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.PORTE_FTP_SERVEUR }}
+          username: ${{ secrets.PORTE_FTP_UTILISATEUR }}
+          password: ${{ secrets.PORTE_FTP_MOTDEPASSE }}
+          protocol: ftps
+          local-dir: ./out/
+          server-dir: ${{ inputs.dossier }}
+          dangerous-clean-slate: false
